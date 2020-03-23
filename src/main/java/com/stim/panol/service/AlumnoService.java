@@ -1,0 +1,14 @@
+package com.stim.panol.service;
+
+import com.stim.panol.model.Alumno;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface AlumnoService {
+
+    List<Alumno> findAll();
+    <S extends Alumno> List<S> saveAll(Iterable<S> entities);
+    Optional<Alumno> findByRut(String rut);
+    Alumno save(Alumno alumno);
+}
