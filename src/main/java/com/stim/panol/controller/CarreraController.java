@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+// En los controladores va la logica del negocio. controllerRest se comporta como api.
 @RestController
 @RequestMapping("/carrera")
 @Slf4j
@@ -34,7 +35,7 @@ public class CarreraController {
         return ResponseEntity.ok(carreraService.findAll());
     }
 
-    // Crear carrera -> debe recibir {nombre, tipo}
+    // Crear carrera -> debe recibir {nombre, tipo, escuela}
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Carrera> postCarrera(@Valid @NotNull @RequestBody Map<String, String> body) {
 
@@ -63,7 +64,7 @@ public class CarreraController {
         return ResponseEntity.ok(carreraService.findById(id));
     }
 
-    // Actualizar carrera
+    // Actualizar carrera -> puede recibir {nombre, tipo, escuela}
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Carrera> postActualizarCarrera(@Valid @NotNull @RequestBody Map<String, String> body, @PathVariable Integer id) {
 
@@ -77,6 +78,7 @@ public class CarreraController {
         carrera.setEscuela(escuelaService.findById(Integer.parseInt(body.get("escuela"))).get());
         carrera.setFechaActualizacion(dateFormat.format(date));
         carrera.setNombre(body.get("nombre"));
+        carrera.setTipoCarrera(body.get("tipo"));
 
         return ResponseEntity.ok(carreraService.save(carrera));
     }

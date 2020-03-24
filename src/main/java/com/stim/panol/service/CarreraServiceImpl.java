@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// Los servicios son donde se hace la interaccion con la base de datos.
+// Estos servicios implementan los metodos de la interfaz auxiliar.
 @Service
 public class CarreraServiceImpl implements CarreraService {
 
+    // Se llama al repositorio para ejecutar las query por medio de metodos.
     @Autowired
     private CarreraRepository carreraRepository;
-
 
     @Override
     public List<Carrera> findAll() {

@@ -5,6 +5,7 @@ import com.stim.panol.model.Alumno;
 import java.util.List;
 import java.util.Optional;
 
+// Inteerfaz auxiliar para separar el codigo.
 public interface AlumnoService {
 
     List<Alumno> findAll();

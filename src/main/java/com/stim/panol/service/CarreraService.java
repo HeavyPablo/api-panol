@@ -5,6 +5,7 @@ import com.stim.panol.model.Carrera;
 import java.util.List;
 import java.util.Optional;
 
+// Inteerfaz auxiliar para separar el codigo.
 public interface CarreraService {
 
     List<Carrera> findAll();

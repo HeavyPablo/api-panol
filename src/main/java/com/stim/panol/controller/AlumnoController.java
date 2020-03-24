@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// En los controladores va la logica del negocio. controllerRest se comporta como api.
 @RestController
 @RequestMapping("/alumno")
 @Slf4j
@@ -27,12 +28,13 @@ public class AlumnoController {
     @Autowired
     private CarreraServiceImpl carreraService;
 
+    // Obtiene todos los alumnos
     @GetMapping
     public ResponseEntity<List<Alumno>> getAllAlumno() {
         return ResponseEntity.ok(alumnoService.findAll());
     }
 
-    // Debe recibir por post{rut, apellidoPaterno, apellidoMaterno, nombre, telefono, correoAlumno, carrera}
+    // Crear alumno -> debe recibir {rut, apellidoPaterno, apellidoMaterno, nombre, telefono, correoAlumno, carrera}
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Alumno> postCrearAlumno(@Valid @NotNull  @RequestBody Map<String, String> body) {
 
@@ -59,6 +61,7 @@ public class AlumnoController {
         return ResponseEntity.ok(alumnoService.save(alumno));
     }
 
+    // Obtiene alumno por ID
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Alumno>> getAlumno(@PathVariable Integer id) {
         if (!alumnoService.findById(id).isPresent()) {
@@ -68,6 +71,7 @@ public class AlumnoController {
         return ResponseEntity.ok(alumnoService.findById(id));
     }
 
+    // Actualiza alumno -> puede recibir {apellidoPaterno, apellidoMaterno, nombre, telefono, correoAlumno, carrera}
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Alumno> postActualizarAlumno(@Valid @NotNull @RequestBody Map<String, String> body, @PathVariable Integer id) {
         if (!alumnoService.findById(id).isPresent()) {

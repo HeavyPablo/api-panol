@@ -1,6 +1,5 @@
 package com.stim.panol.model;
 
-
 import javax.persistence.*;
 
 @Entity

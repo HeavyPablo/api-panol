@@ -4,6 +4,7 @@ import com.stim.panol.model.Carrera;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+// Repositorios son necesarios para llamar metodos de query como: findAll() -> obtener todos, save() -> guardar o actualizar
 @Repository
 public interface CarreraRepository extends JpaRepository<Carrera, Integer> {
 }

@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// Los servicios son donde se hace la interaccion con la base de datos ..  (Se ejecuta la query).
+// Estos servicios implementan los metodos de la interfaz auxiliar.
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
-
+    // Se llama al repositorio para ejecutar las query por medio de metodos.
     @Autowired
     private AlumnoRepository alumnoRepository;
 
