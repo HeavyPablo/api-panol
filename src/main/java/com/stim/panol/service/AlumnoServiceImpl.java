@@ -25,12 +25,17 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public Optional<Alumno> findByRut(String rut) {
-        return alumnoRepository.findByRut(rut);
+    public Optional<Alumno> findById(Integer id) {
+        return alumnoRepository.findById(id);
     }
 
     @Override
     public Alumno save(Alumno alumno) {
         return alumnoRepository.save(alumno);
+    }
+
+    @Override
+    public Optional<Alumno> findByRut(String rut) {
+        return alumnoRepository.findByRut(rut);
     }
 }

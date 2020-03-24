@@ -3,7 +3,7 @@ package com.stim.panol.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CARERRA")
+@Table(name = "CARERRAS")
 public class Carrera {
 
     @Id
@@ -14,6 +14,15 @@ public class Carrera {
     @Column(name = "NOMBRE", length = 150, nullable = false)
     private String nombre;
 
+    @Column(name = "TIPO_CARRERA", length = 150, nullable = false)
+    private String tipoCarrera;
+
+    @Column(name = "FECHA_CREACION", nullable = false)
+    private String fechaCreacion;
+
+    @Column(name = "FECHA_ACTUALIZACION", nullable = false)
+    private String fechaActualizacion;
+
     // Relaciones
     @ManyToOne
     private Escuela escuela;
@@ -22,9 +31,12 @@ public class Carrera {
     public Carrera() {
     }
 
-    public Carrera(int id, String nombre) {
-        this.id = id;
+    public Carrera(String nombre, String tipoCarrera, String fechaCreacion, String fechaActualizacion, Escuela escuela) {
         this.nombre = nombre;
+        this.tipoCarrera = tipoCarrera;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaActualizacion = fechaActualizacion;
+        this.escuela = escuela;
     }
 
     // Getters & Setters
@@ -50,5 +62,29 @@ public class Carrera {
 
     public void setEscuela(Escuela escuela) {
         this.escuela = escuela;
+    }
+
+    public String getTipoCarrera() {
+        return tipoCarrera;
+    }
+
+    public void setTipoCarrera(String tipoCarrera) {
+        this.tipoCarrera = tipoCarrera;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getFechaActualizacion() {
+        return fechaActualizacion;
+    }
+
+    public void setFechaActualizacion(String fechaActualizacion) {
+        this.fechaActualizacion = fechaActualizacion;
     }
 }

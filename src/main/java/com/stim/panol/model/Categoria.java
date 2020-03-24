@@ -3,12 +3,11 @@ package com.stim.panol.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ESCUELAS")
-public class Escuela {
+@Table(name = "CATEGORIAS")
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", updatable = false)
     private int id;
 
     @Column(name = "NOMBRE", length = 150, nullable = false)
@@ -21,10 +20,10 @@ public class Escuela {
     private String fechaActualizacion;
 
     // Constructores
-    public Escuela() {
+    public Categoria() {
     }
 
-    public Escuela(String nombre, String fechaCreacion, String fechaActualizacion) {
+    public Categoria(String nombre, String fechaCreacion, String fechaActualizacion) {
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;

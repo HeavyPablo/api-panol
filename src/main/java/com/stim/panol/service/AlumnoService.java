@@ -9,6 +9,7 @@ public interface AlumnoService {
 
     List<Alumno> findAll();
     <S extends Alumno> List<S> saveAll(Iterable<S> entities);
-    Optional<Alumno> findByRut(String rut);
+    Optional<Alumno> findById(Integer id);
     Alumno save(Alumno alumno);
+    Optional<Alumno> findByRut(String rut);
 }

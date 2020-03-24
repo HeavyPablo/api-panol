@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AlumnoRepository extends JpaRepository<Alumno, String> {
+public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
     public Optional<Alumno> findByRut(String rut);
 }

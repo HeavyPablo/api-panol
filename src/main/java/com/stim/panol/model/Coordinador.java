@@ -1,11 +1,10 @@
 package com.stim.panol.model;
 
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ALUMNOS")
-public class Alumno {
+@Table(name = "COORDINADORES")
+public class Coordinador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +25,8 @@ public class Alumno {
     @Column(name = "TELEFONO", length = 20, nullable = false)
     private String telefono;
 
-    @Column(name = "CORREO_ALUMNO", length = 150, nullable = false)
-    private String correoAlumno;
+    @Column(name = "CORREO_COORDINADOR", length = 150, nullable = false)
+    private String correoCoordinador;
 
     @Column(name = "ESTADO", length = 150, nullable = false)
     private String estado;
@@ -40,26 +39,27 @@ public class Alumno {
 
     // Relaciones
     @ManyToOne
-    private Carrera carrera;
+    private Escuela escuela;
 
     // Constructores
-    public Alumno() {
+    public Coordinador() {
     }
 
-    public Alumno(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoAlumno, String estado, String fechaCreacion, String fechaActualizacion, Carrera carrera) {
+    public Coordinador(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoCoordinador, String estado, String fechaCreacion, String fechaActualizacion, Escuela escuela) {
         this.rut = rut;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.nombre = nombre;
         this.telefono = telefono;
-        this.correoAlumno = correoAlumno;
+        this.correoCoordinador = correoCoordinador;
         this.estado = estado;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
-        this.carrera = carrera;
+        this.escuela = escuela;
     }
 
     // Getters & Setters
+
     public int getId() {
         return id;
     }
@@ -108,20 +108,12 @@ public class Alumno {
         this.telefono = telefono;
     }
 
-    public String getCorreoAlumno() {
-        return correoAlumno;
+    public String getCorreoCoordinador() {
+        return correoCoordinador;
     }
 
-    public void setCorreoAlumno(String correoAlumno) {
-        this.correoAlumno = correoAlumno;
-    }
-
-    public Carrera getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(Carrera carrera) {
-        this.carrera = carrera;
+    public void setCorreoCoordinador(String correoCoordinador) {
+        this.correoCoordinador = correoCoordinador;
     }
 
     public String getEstado() {
@@ -146,5 +138,13 @@ public class Alumno {
 
     public void setFechaActualizacion(String fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
+    }
+
+    public Escuela getEscuela() {
+        return escuela;
+    }
+
+    public void setEscuela(Escuela escuela) {
+        this.escuela = escuela;
     }
 }

@@ -3,16 +3,21 @@ package com.stim.panol.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ESCUELAS")
-public class Escuela {
+@Table(name = "PRODUCTOS")
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", updatable = false)
     private int id;
 
-    @Column(name = "NOMBRE", length = 150, nullable = false)
+    @Column(name = "NOMBRE", length = 200, nullable = false)
     private String nombre;
+
+    @Column(name = "ESTADO", nullable = false)
+    private String estado;
+
+    @Column(name = "DESCRIPCION", length = 200)
+    private String descripcion;
 
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
@@ -20,14 +25,22 @@ public class Escuela {
     @Column(name = "FECHA_ACTUALIZACION", nullable = false)
     private String fechaActualizacion;
 
+    // Relaciones
+    @ManyToOne
+    private Subcategoria subcategoria;
+
+
     // Constructores
-    public Escuela() {
+    public Producto() {
     }
 
-    public Escuela(String nombre, String fechaCreacion, String fechaActualizacion) {
+    public Producto(String nombre, String estado, String descripcion, String fechaCreacion, String fechaActualizacion, Subcategoria subcategoria) {
         this.nombre = nombre;
+        this.estado = estado;
+        this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
+        this.subcategoria = subcategoria;
     }
 
     // Getters & Setters
@@ -45,6 +58,30 @@ public class Escuela {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Subcategoria getSubcategoria() {
+        return subcategoria;
+    }
+
+    public void setSubcategoria(Subcategoria subcategoria) {
+        this.subcategoria = subcategoria;
     }
 
     public String getFechaCreacion() {
