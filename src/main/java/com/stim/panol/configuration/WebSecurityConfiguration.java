@@ -23,7 +23,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
 
-    public WebSecurityConfiguration(@Lazy UserDetailsService userDetailsService) {
+    public WebSecurityConfiguration(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
