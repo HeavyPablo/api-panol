@@ -1,7 +1,5 @@
 package com.stim.panol.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
@@ -18,17 +16,42 @@ public class Usuario {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
+    @Column(name = "FECHA_CREACION", nullable = false)
+    private String fechaCreacion;
+
+    @Column(name = "FECHA_ACTUALIZACION", nullable = false)
+    private String fechaActualizacion;
+
+    // Relaciones
     @ManyToOne
     private Perfil perfil;
+
+    @ManyToOne
+    private Alumno alumno;
+
+    @ManyToOne
+    private Docente docente;
+
+    @ManyToOne
+    private Director director;
+
+    @ManyToOne
+    private Coordinador coordinador;
 
     // Constructores
     public Usuario() {
     }
 
-    public Usuario(String username, String password, Perfil perfil) {
+    public Usuario(String username, String password, String fechaCreacion, String fechaActualizacion, Perfil perfil, Alumno alumno, Docente docente, Director director, Coordinador coordinador) {
         this.username = username;
         this.password = password;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaActualizacion = fechaActualizacion;
         this.perfil = perfil;
+        this.alumno = alumno;
+        this.docente = docente;
+        this.director = director;
+        this.coordinador = coordinador;
     }
 
     // Getters & Setters
@@ -48,11 +71,59 @@ public class Usuario {
         this.password = password;
     }
 
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getFechaActualizacion() {
+        return fechaActualizacion;
+    }
+
+    public void setFechaActualizacion(String fechaActualizacion) {
+        this.fechaActualizacion = fechaActualizacion;
+    }
+
     public Perfil getPerfil() {
         return perfil;
     }
 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
+    }
+
+    public Alumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
+    }
+
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
+    }
+
+    public Coordinador getCoordinador() {
+        return coordinador;
+    }
+
+    public void setCoordinador(Coordinador coordinador) {
+        this.coordinador = coordinador;
     }
 }

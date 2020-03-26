@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.Usuario;
 import com.stim.panol.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,7 @@ import static java.util.Collections.emptyList;
 @Service
 public class UsuarioDetailsServiceImpl implements UserDetailsService {
 
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     public UsuarioDetailsServiceImpl(UsuarioRepository usuarioRepository) {

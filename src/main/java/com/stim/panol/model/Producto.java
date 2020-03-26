@@ -1,6 +1,7 @@
 package com.stim.panol.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "PRODUCTOS")
@@ -29,6 +30,8 @@ public class Producto {
     @ManyToOne
     private Subcategoria subcategoria;
 
+    @ManyToMany
+    private Set<Solicitud> solicitudes;
 
     // Constructores
     public Producto() {

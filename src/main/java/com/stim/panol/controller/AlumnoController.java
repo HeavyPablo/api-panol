@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,10 +35,10 @@ public class AlumnoController {
 
     // Crear alumno -> debe recibir {rut, apellidoPaterno, apellidoMaterno, nombre, telefono, correoAlumno, carrera}
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Alumno> postCrearAlumno(@Valid @NotNull  @RequestBody Map<String, String> body) {
+    public Alumno postCrearAlumno(@Valid @NotNull @RequestBody Map<String, String> body) {
 
         if (alumnoService.findByRut(body.get("rut")).isPresent()) {
-            return ResponseEntity.badRequest().build();
+            return null;
         }
 
         Date date = new Date();
@@ -58,7 +57,7 @@ public class AlumnoController {
                 carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
         );
 
-        return ResponseEntity.ok(alumnoService.save(alumno));
+        return alumnoService.save(alumno);
     }
 
     // Obtiene alumno por ID
