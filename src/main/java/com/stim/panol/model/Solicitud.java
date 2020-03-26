@@ -27,9 +27,11 @@ public class Solicitud {
     private String fechaActualizacion;
 
     // Relaciones
+    @JoinColumn(name = "USUARIO_SOLICITANTE")
     @ManyToOne
     private Usuario usuario;
 
+    @JoinColumn(name = "PANOLERO_RESPONSABLE")
     @ManyToOne
     private Panolero panolero;
 

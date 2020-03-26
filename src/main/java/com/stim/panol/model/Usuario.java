@@ -38,11 +38,14 @@ public class Usuario {
     @ManyToOne
     private Coordinador coordinador;
 
+    @ManyToOne
+    private Panolero panolero;
+
     // Constructores
     public Usuario() {
     }
 
-    public Usuario(String username, String password, String fechaCreacion, String fechaActualizacion, Perfil perfil, Alumno alumno, Docente docente, Director director, Coordinador coordinador) {
+    public Usuario(String username, String password, String fechaCreacion, String fechaActualizacion, Perfil perfil, Alumno alumno, Docente docente, Director director, Coordinador coordinador, Panolero panolero) {
         this.username = username;
         this.password = password;
         this.fechaCreacion = fechaCreacion;
@@ -52,6 +55,7 @@ public class Usuario {
         this.docente = docente;
         this.director = director;
         this.coordinador = coordinador;
+        this.panolero = panolero;
     }
 
     // Getters & Setters
@@ -125,5 +129,13 @@ public class Usuario {
 
     public void setCoordinador(Coordinador coordinador) {
         this.coordinador = coordinador;
+    }
+
+    public Panolero getPanolero() {
+        return panolero;
+    }
+
+    public void setPanolero(Panolero panolero) {
+        this.panolero = panolero;
     }
 }

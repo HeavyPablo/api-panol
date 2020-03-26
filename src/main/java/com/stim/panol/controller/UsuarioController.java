@@ -21,7 +21,6 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
     @Autowired
     private AlumnoServiceImpl alumnoService;
     @Autowired
@@ -32,6 +31,8 @@ public class UsuarioController {
     private CoordinadorServiceImpl coordinadorService;
     @Autowired
     private DirectorServiceImpl directorService;
+    @Autowired
+    private PanoleroServiceImpl panoleroService;
     @Autowired
     private CarreraServiceImpl carreraService;
     @Autowired
@@ -45,7 +46,7 @@ public class UsuarioController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    // Crear usuario -> debe recibir {username, password, perfil} OBLIGATORIO ... Ademas puede recibir para crear Alumno, Docente, Coordinador, Director (dependiendo del perfil)
+    // Crear usuario -> debe recibir {username, password, perfil} y los datos de los perfiles
     @PostMapping("/usuario")
     public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody @NotNull Map<String, String> body) {
 
@@ -64,6 +65,7 @@ public class UsuarioController {
                 dateFormat.format(date),
                 dateFormat.format(date),
                 perfilService.findById(Integer.parseInt(body.get("perfil"))).get(),
+                null,
                 null,
                 null,
                 null,
@@ -155,7 +157,22 @@ public class UsuarioController {
                 break;
             // Panolero
             case "6":
-
+                if (!panoleroService.findByRut(body.get("rut")).isPresent()) {
+                    Panolero newPanolero = new Panolero(
+                            body.get("rut"),
+                            body.get("apellidoPaterno"),
+                            body.get("apellidoMaterno"),
+                            body.get("nombre"),
+                            body.get("telefono"),
+                            body.get("correoPanolero"),
+                            "activo",
+                            dateFormat.format(date),
+                            dateFormat.format(date)
+                    );
+                    newPanolero = panoleroService.save(newPanolero);
+                    newUsuario.setPanolero(newPanolero);
+                    valid = true;
+                }
             default:
                 break;
         }
