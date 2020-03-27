@@ -21,8 +21,134 @@ mvnw spring-boot:run
 ```
 Cuando corran el comando les creara las tablas y todas las weas de relaciones etc etc. jajaj.
 
-***Solo estan disponible de las tablas ALUMNOS, CARRERAS y ESCUELAS para las siguientes operaciones:***
-- **obtener todos**
-- **obtener por id**
-- **crear**
-- **actualizar**
+### Lista de URLs API (en construccion..)
+```
+localhost:8080/escuela              //GetAll, PostCrear
+localhost:8080/escuela/{id}         //GetById, PostAcualizar
+
+localhost:8080/perfil               //GetAll, PostCrear
+localhost:8080/perfil/{id}          //GetById, PostAcualizar
+
+localhost:8080/carrera              //GetAll, PostCrear
+localhost:8080/carrera/{id}         //GetById, PostAcualizar
+
+localhost:8080/alumno               //GetAll, PostCrear
+localhost:8080/alumno/{id}          //GetById, PostAcualizar
+
+localhost:8080/docente              //GetAll, PostCrear
+localhost:8080/docente/{id}         //GetById, PostAcualizar
+
+localhost:8080/director             //GetAll, PostCrear
+localhost:8080/director/{id}        //GetById, PostAcualizar
+
+localhost:8080/coordinador          //GetAll, PostCrear
+localhost:8080/coordinador/{id}     //GetById, PostAcualizar
+
+localhost:8080/panolero             //GetAll, PostCrear
+localhost:8080/panolero/{id}        //GetById, PostAcualizar
+
+localhost:8080/usuario              //GetAll, PostCrear
+localhost:8080/usuario/{username}   //GetById, PostAcualizar
+...
+```
+
+### Body para crear y/o editar (en construccion..)
+**Escuela**
+```
+{
+  "nombre": "..."
+}
+```
+
+**Carrera**
+```
+{
+  "nombre": "...",
+  "escuela": "..."    --> El ID de la escuela
+}
+```
+
+**Alumno**
+```
+{
+  "rut": "...", 
+  "apellidoPaterno": "...", 
+  "apellidoMaterno": "...", 
+  "nombre": "...", 
+  "telefono": "...", 
+  "correoAlumno": "...", 
+  "carrera": "..."    --> El ID de la carrera
+}
+```
+
+**Docente**
+```
+{
+  "rut": "...", 
+  "apellidoPaterno": "...", 
+  "apellidoMaterno": "...", 
+  "nombre": "...", 
+  "telefono": "...", 
+  "correoDocente": "...", 
+  "carrera": "..."    --> El ID de la carrera
+}
+```
+
+**Coordinador**
+```
+{
+  "rut": "...", 
+  "apellidoPaterno": "...", 
+  "apellidoMaterno": "...", 
+  "nombre": "...", 
+  "telefono": "...", 
+  "correoCoordinador": "...", 
+  "escuela": "..."    --> El ID de la escuela
+}
+```
+
+**Director**
+```
+{
+  "rut": "...", 
+  "apellidoPaterno": "...", 
+  "apellidoMaterno": "...", 
+  "nombre": "...", 
+  "telefono": "...", 
+  "correoDirector": "...", 
+  "escuela": "..."    --> El ID de la escuela
+}
+```
+
+**Panolero**
+```
+{
+  "rut": "...", 
+  "apellidoPaterno": "...", 
+  "apellidoMaterno": "...", 
+  "nombre": "...", 
+  "telefono": "...", 
+  "correoPanolero": "..."
+}
+```
+
+**Perfil**
+```
+{
+  "perfil": "..."
+}
+```
+
+**Usuario**
+```
+{
+  "username": "...",
+  "password": "...",
+  "perfil": "..."     --> El ID del perfil
+  
+  "rut": "...",       --> Dependendiendo del perfil: Si el perfil es alumno, debe incluir los datos para crear un alumno.
+  "apellidoPaterno": "...", 
+  "apellidoMaterno": "...", 
+  ...
+}
+```
