@@ -21,6 +21,8 @@ mvnw spring-boot:run
 ```
 Cuando corran el comando les creara las tablas y todas las weas de relaciones etc etc. jajaj.
 
+## Funcionalidades
+
 ### Lista de URLs API (en construccion..)
 ```
 localhost:8080/escuela              //GetAll, PostCrear
@@ -153,3 +155,5 @@ localhost:8080/usuario/{username}   //GetById, PostAcualizar
   ...
 }
 ```
+## Extras
+**Tutorial para API:** https://drive.google.com/open?id=1F_XmjsXmWdA4tbXcJ7YbM9_iUbmCyAkY
