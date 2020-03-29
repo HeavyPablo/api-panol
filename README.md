@@ -64,7 +64,8 @@ localhost:8080/usuario/{username}   //GetById, PostAcualizar
 ```
 {
   "nombre": "...",
-  "escuela": "..."    --> El ID de la escuela
+  "escuela": "...",     --> El ID de la escuela
+  "tipo": "..."         --> "tecnico" o "ingeniera"
 }
 ```
 
