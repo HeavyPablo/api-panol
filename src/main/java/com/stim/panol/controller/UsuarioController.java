@@ -108,7 +108,7 @@ public class UsuarioController {
                             "activo",
                             dateFormat.format(date),
                             dateFormat.format(date),
-                            carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
+                            escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
                     );
                     newDocente = docenteService.save(newDocente);
                     newUsuario.setDocente(newDocente);

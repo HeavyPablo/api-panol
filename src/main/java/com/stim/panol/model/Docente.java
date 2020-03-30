@@ -39,7 +39,7 @@ public class Docente {
 
     // Relaciones
     @ManyToOne
-    private Carrera carrera;
+    private Escuela escuela;
 
     // Constructores
 
@@ -47,7 +47,7 @@ public class Docente {
     public Docente() {
     }
 
-    public Docente(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoDocente, String estado, String fechaCreacion, String fechaActualizacion, Carrera carrera) {
+    public Docente(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoDocente, String estado, String fechaCreacion, String fechaActualizacion, Escuela escuela) {
         this.rut = rut;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -57,7 +57,7 @@ public class Docente {
         this.estado = estado;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
-        this.carrera = carrera;
+        this.escuela = escuela;
     }
 
     // Getters & Setters
@@ -142,11 +142,11 @@ public class Docente {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public Carrera getCarrera() {
-        return carrera;
+    public Escuela getEscuela() {
+        return escuela;
     }
 
-    public void setCarrera(Carrera carrera) {
-        this.carrera = carrera;
+    public void setEscuela(Escuela escuela) {
+        this.escuela = escuela;
     }
 }

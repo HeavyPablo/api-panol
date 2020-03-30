@@ -3,7 +3,7 @@ package com.stim.panol.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CARERRAS")
+@Table(name = "CARRERAS")
 public class Carrera {
 
     @Id

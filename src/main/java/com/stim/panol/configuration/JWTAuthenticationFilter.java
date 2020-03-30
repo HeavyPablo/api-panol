@@ -1,12 +1,11 @@
 package com.stim.panol.configuration;
 
 import static com.stim.panol.component.Constans.HEADER_AUTHORIZACION_KEY;
-import static com.stim.panol.component.Constans.ISSUER_INFO;
 import static com.stim.panol.component.Constans.SUPER_SECRET_KEY;
-import static com.stim.panol.component.Constans.TOKEN_BEARER_PREFIX;
 import static com.stim.panol.component.Constans.TOKEN_EXPIRATION_TIME;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -52,10 +51,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        String token = Jwts.builder().setIssuedAt(new Date()).setIssuer(ISSUER_INFO)
+        String token = Jwts.builder().setIssuedAt(new Date())
                 .setSubject(((User)auth.getPrincipal()).getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SUPER_SECRET_KEY).compact();
+                .signWith(SignatureAlgorithm.HS256, SUPER_SECRET_KEY).compact();
 
         response.addHeader(HEADER_AUTHORIZACION_KEY, token);
     }

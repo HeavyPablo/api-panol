@@ -2,7 +2,7 @@ package com.stim.panol.controller;
 
 import com.stim.panol.model.Docente;
 import com.stim.panol.service.DocenteServiceImpl;
-import com.stim.panol.service.CarreraServiceImpl;
+import com.stim.panol.service.EscuelaServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public class DocenteController {
     private DocenteServiceImpl docenteService;
 
     @Autowired
-    private CarreraServiceImpl carreraService;
+    private EscuelaServiceImpl escuelaService;
 
 
     @GetMapping
@@ -54,7 +54,7 @@ public class DocenteController {
                 "activo",
                 dateFormat.format(date),
                 dateFormat.format(date),
-                carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
+                escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
         );
 
         return docenteService.save(docente);
@@ -82,7 +82,7 @@ public class DocenteController {
 
         docente.setApellidoMaterno(body.get("apellidoMaterno"));
         docente.setApellidoPaterno(body.get("apellidoPaterno"));
-        docente.setCarrera(carreraService.findById(Integer.parseInt(body.get("carrera"))).get());
+        docente.setEscuela(escuelaService.findById(Integer.parseInt(body.get("escuela"))).get());
         docente.setCorreoDocente(body.get("correoDocente"));
         docente.setNombre(body.get("nombre"));
         docente.setTelefono(body.get("telefono"));
