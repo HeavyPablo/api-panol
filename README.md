@@ -25,32 +25,46 @@ Cuando corran el comando les creara las tablas y todas las weas de relaciones et
 
 ### Lista de URLs API (en construccion..)
 ```
-localhost:8080/escuela              //GetAll, PostCrear
-localhost:8080/escuela/{id}         //GetById, PostAcualizar
+localhost:8080/alumno                 //GetAll, PostCrear
+localhost:8080/alumno/{id}            //GetById, PostAcualizar
 
-localhost:8080/perfil               //GetAll, PostCrear
-localhost:8080/perfil/{id}          //GetById, PostAcualizar
+localhost:8080/carrera                //GetAll, PostCrear
+localhost:8080/carrera/{id}           //GetById, PostAcualizar
 
-localhost:8080/carrera              //GetAll, PostCrear
-localhost:8080/carrera/{id}         //GetById, PostAcualizar
+localhost:8080/categoria              //GetAll, PostCrear
+localhost:8080/categoria/saveAll      //PostCrear por lotes
+localhost:8080/categoria/{id}         //GetById, PostAcualizar
 
-localhost:8080/alumno               //GetAll, PostCrear
-localhost:8080/alumno/{id}          //GetById, PostAcualizar
+localhost:8080/coordinador            //GetAll, PostCrear
+localhost:8080/coordinador/{id}       //GetById, PostAcualizar
 
-localhost:8080/docente              //GetAll, PostCrear
-localhost:8080/docente/{id}         //GetById, PostAcualizar
+localhost:8080/director               //GetAll, PostCrear
+localhost:8080/director/{id}          //GetById, PostAcualizar
 
-localhost:8080/director             //GetAll, PostCrear
-localhost:8080/director/{id}        //GetById, PostAcualizar
+localhost:8080/docente                //GetAll, PostCrear
+localhost:8080/docente/{id}           //GetById, PostAcualizar
 
-localhost:8080/coordinador          //GetAll, PostCrear
-localhost:8080/coordinador/{id}     //GetById, PostAcualizar
+localhost:8080/escuela                //GetAll, PostCrear
+localhost:8080/escuela/saveAll        //PostCrear por lotes
+localhost:8080/escuela/{id}           //GetById, PostAcualizar
 
-localhost:8080/panolero             //GetAll, PostCrear
-localhost:8080/panolero/{id}        //GetById, PostAcualizar
+localhost:8080/panolero               //GetAll, PostCrear
+localhost:8080/panolero/{id}          //GetById, PostAcualizar
 
-localhost:8080/usuario              //GetAll, PostCrear
-localhost:8080/usuario/{username}   //GetById, PostAcualizar
+localhost:8080/producto               //GetAll, PostCrear
+localhost:8080/producto/saveAll       //PostCrear por lotes
+localhost:8080/producto/{id}          //GetById, PostAcualizar
+
+localhost:8080/solicitud              //GetAll, PostCrear
+localhost:8080/solicitud/{id}         //GetById, PostAcualizar
+
+localhost:8080/subcategoria           //GetAll, PostCrear
+localhost:8080/subcategoria/saveAll   //PostCrear por lotes
+localhost:8080/subcategoria/{id}      //GetById, PostAcualizar
+
+localhost:8080/usuario                //GetAll, PostCrear
+localhost:8080/usuario/{id}           //GetById, PostAcualizar
+localhost:8080/usuario?rut={rut}      //GetByRut
 ...
 ```
 
@@ -61,6 +75,16 @@ localhost:8080/usuario/{username}   //GetById, PostAcualizar
   "nombre": "..."
 }
 ```
+```
+[
+  {
+    "nombre": "..."
+  },
+  {
+    "nombre": "..."
+  }, etc...
+]
+```
 
 **Carrera**
 ```
@@ -69,6 +93,20 @@ localhost:8080/usuario/{username}   //GetById, PostAcualizar
   "escuela": "...",     --> El ID de la escuela
   "tipo": "..."         --> "tecnico" o "ingeniera"
 }
+```
+```
+[
+  {
+    "nombre": "...",
+    "escuela": "...",     --> El ID de la escuela
+    "tipo": "..."         --> "tecnico" o "ingeniera"
+  },
+  {
+    "nombre": "...",
+    "escuela": "...",     --> El ID de la escuela
+    "tipo": "..."         --> "tecnico" o "ingeniera"
+  }, etc...
+]
 ```
 
 **Alumno**
@@ -93,7 +131,7 @@ localhost:8080/usuario/{username}   //GetById, PostAcualizar
   "nombre": "...", 
   "telefono": "...", 
   "correoDocente": "...", 
-  "carrera": "..."    --> El ID de la carrera
+  "escuela": "..."    --> El ID de la escuela
 }
 ```
 
@@ -135,25 +173,104 @@ localhost:8080/usuario/{username}   //GetById, PostAcualizar
 }
 ```
 
-**Perfil**
-```
-{
-  "perfil": "..."
-}
-```
-
 **Usuario**
 ```
 {
   "username": "...",
   "password": "...",
-  "perfil": "..."     --> El ID del perfil
-  
+  "perfil": "..."     --> El perfil (ALUMNO, DOCENTE, COORDINADOR, DIRECTO, PANOLERO)
+  ---   ---   ---   ---   ---   ---   ---   --
   "rut": "...",       --> Dependendiendo del perfil: Si el perfil es alumno, debe incluir los datos para crear un alumno.
   "apellidoPaterno": "...", 
   "apellidoMaterno": "...", 
   ...
 }
 ```
+
+**Categoria**
+```
+{
+  "nombre": "..."
+}
+```
+```
+[
+  {
+    "nombre": "..."
+  },
+  {
+    "nombre": "..."
+  }, etc...
+]
+```
+
+**Subcategoria**
+```
+{
+  "nombre": "...",
+  "categoria": "..."   --> ID de la categoria
+}
+```
+```
+[
+  {
+    "nombre": "...",
+    "categoria": "..."   --> ID de la categoria
+  },
+  {
+    "nombre": "...",
+    "categoria": "..."   --> ID de la categoria
+  }, etc...
+]
+```
+
+**Producto**
+```
+{
+  "nombre": "...",
+  "descripcion": "...",
+  "cantidad": "...",
+  "subcategoria": "..."   --> ID de la subcategoria
+}
+```
+```
+[
+  {
+    "nombre": "...",
+    "descripcion": "...",
+    "cantidad": "...",
+    "subcategoria": "..."   --> ID de la subcategoria
+  },
+  {
+    "nombre": "...",
+    "descripcion": "...",
+    "cantidad": "...",
+    "subcategoria": "..."   --> ID de la subcategoria
+  }, etc...
+]
+```
+
+**Solicitud**
+```
+{
+	"solicitud": [
+		{
+			"comentario": "...",
+			"tipo": "...",
+			"solicitante": "...",   -> username del usuario qe pide materiales
+			"responsable": "..." -> rut del panolero responsable de esta solicitud
+		}
+	],
+	"productos": [
+		{
+			"id": "..." --> ID del producto
+		},
+		{
+			"id": "..."
+		}, etc....
+	]
+}
+```
+
 ## Extras
 **Tutorial para API:** https://drive.google.com/open?id=1F_XmjsXmWdA4tbXcJ7YbM9_iUbmCyAkY
