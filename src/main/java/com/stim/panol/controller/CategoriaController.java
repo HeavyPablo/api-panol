@@ -24,7 +24,7 @@ import java.util.Map;
 public class CategoriaController {
 
     @Autowired
-    CategoriaServiceImpl categoriaService;
+    private CategoriaServiceImpl categoriaService;
 
     @GetMapping
     public ResponseEntity<List<Categoria>> getCategoria() {
@@ -71,7 +71,7 @@ public class CategoriaController {
     }
 
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Categoria> postActualizarCategoria(@PathVariable Integer id, @Valid @NotNull @RequestBody Map<String, String> body) {
+    public ResponseEntity<Categoria> postActualizarCategoria(@Valid @NotNull @RequestBody Map<String, String> body, @PathVariable Integer id) {
 
         if (!categoriaService.findById(id).isPresent()) {
             return null;
