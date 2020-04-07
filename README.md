@@ -29,6 +29,7 @@ localhost:8080/alumno                 //GetAll, PostCrear
 localhost:8080/alumno/{id}            //GetById, PostAcualizar
 
 localhost:8080/carrera                //GetAll, PostCrear
+localhost:8080/carrera/saveAll        //PostCrear por lotes
 localhost:8080/carrera/{id}           //GetById, PostAcualizar
 
 localhost:8080/categoria              //GetAll, PostCrear
