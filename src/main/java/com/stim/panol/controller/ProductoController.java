@@ -44,6 +44,7 @@ public class ProductoController {
                 body.get("nombre"),
                 "nuevo",
                 body.get("descripcion"),
+                body.get("cantidad"),
                 dateFormat.format(date),
                 dateFormat.format(date),
                 subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get()
@@ -65,6 +66,7 @@ public class ProductoController {
                     object.get("nombre"),
                     "nuevo",
                     object.get("descripcion"),
+                    object.get("cantidad"),
                     dateFormat.format(date),
                     dateFormat.format(date),
                     subcategoriaService.findById(Integer.parseInt(object.get("subcategoria"))).get()

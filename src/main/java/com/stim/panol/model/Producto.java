@@ -21,7 +21,7 @@ public class Producto {
     private String descripcion;
 
     @Column(name = "CANTIDAD", nullable = false)
-    private int cantidad;
+    private String cantidad;
 
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
@@ -41,10 +41,11 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, String estado, String descripcion, String fechaCreacion, String fechaActualizacion, Subcategoria subcategoria) {
+    public Producto(String nombre, String estado, String descripcion, String cantidad, String fechaCreacion, String fechaActualizacion, Subcategoria subcategoria) {
         this.nombre = nombre;
         this.estado = estado;
         this.descripcion = descripcion;
+        this.cantidad = cantidad;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
         this.subcategoria = subcategoria;
@@ -83,12 +84,12 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Subcategoria getSubcategoria() {
-        return subcategoria;
+    public String getCantidad() {
+        return cantidad;
     }
 
-    public void setSubcategoria(Subcategoria subcategoria) {
-        this.subcategoria = subcategoria;
+    public void setCantidad(String cantidad) {
+        this.cantidad = cantidad;
     }
 
     public String getFechaCreacion() {
@@ -105,5 +106,21 @@ public class Producto {
 
     public void setFechaActualizacion(String fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
+    }
+
+    public Subcategoria getSubcategoria() {
+        return subcategoria;
+    }
+
+    public void setSubcategoria(Subcategoria subcategoria) {
+        this.subcategoria = subcategoria;
+    }
+
+    public Set<Solicitud> getSolicitudes() {
+        return solicitudes;
+    }
+
+    public void setSolicitudes(Set<Solicitud> solicitudes) {
+        this.solicitudes = solicitudes;
     }
 }
