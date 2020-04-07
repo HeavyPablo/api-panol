@@ -12,10 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 // En los controladores va la logica del negocio. controllerRest se comporta como api.
 @RestController
@@ -46,6 +43,26 @@ public class EscuelaController {
         );
 
         return ResponseEntity.ok(escuelaService.save(escuela));
+    }
+
+    // Guarda muchas escuelas (recibe un arreglo json)
+    @PostMapping(value = "/saveAll", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Escuela>> postCrearEscuelas(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        ArrayList<Escuela> escuelas = new ArrayList<>();
+
+        for (Map<String, String> object : body) {
+            escuelas.add(new Escuela(
+                    object.get("nombre"),
+                    dateFormat.format(date),
+                    dateFormat.format(date)
+            ));
+        }
+
+        return ResponseEntity.ok(escuelaService.saveAll(escuelas));
     }
 
     // Obtener escuela por ID

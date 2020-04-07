@@ -20,6 +20,9 @@ public class Producto {
     @Column(name = "DESCRIPCION", length = 200)
     private String descripcion;
 
+    @Column(name = "CANTIDAD", nullable = false)
+    private int cantidad;
+
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 

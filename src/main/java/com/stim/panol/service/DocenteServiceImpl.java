@@ -12,7 +12,7 @@ import java.util.Optional;
 public class DocenteServiceImpl implements DocenteService {
 
     @Autowired
-    DocenteRepository docenteRepository;
+    private DocenteRepository docenteRepository;
 
     @Override
     public List<Docente> findAll() {

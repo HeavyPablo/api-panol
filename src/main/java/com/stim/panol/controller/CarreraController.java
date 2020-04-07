@@ -13,10 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 // En los controladores va la logica del negocio. controllerRest se comporta como api.
 @RestController
@@ -35,9 +32,9 @@ public class CarreraController {
         return ResponseEntity.ok(carreraService.findAll());
     }
 
-    // Crear carrera -> debe recibir {nombre, tipo, escuela}
+    // Guardar carrera
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Carrera> postCarrera(@Valid @NotNull @RequestBody Map<String, String> body) {
+    public ResponseEntity<Carrera> postCrearCarrera(@Valid @NotNull @RequestBody Map<String, String> body) {
 
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -50,7 +47,32 @@ public class CarreraController {
                 escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
         );
 
+        newCarrera.setFechaCreacion(dateFormat.format(date));
+        newCarrera.setFechaActualizacion(dateFormat.format(date));
+
         return ResponseEntity.ok(carreraService.save(newCarrera));
+    }
+
+    //Guardar muchas carreras(recibe un arreglo json)
+    @PostMapping(value = "/saveAll", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Carrera>> postCrearCarreras(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        ArrayList<Carrera> carreras = new ArrayList<>();
+
+        for (Map<String, String> object : body) {
+            carreras.add(new Carrera(
+                    object.get("nombre"),
+                    object.get("tipo"),
+                    dateFormat.format(date),
+                    dateFormat.format(date),
+                    escuelaService.findById(Integer.parseInt(object.get("escuela"))).get()
+            ));
+        }
+
+        return ResponseEntity.ok(carreraService.saveAll(carreras));
     }
 
     // Obtener carrera por ID
@@ -64,7 +86,7 @@ public class CarreraController {
         return ResponseEntity.ok(carreraService.findById(id));
     }
 
-    // Actualizar carrera -> puede recibir {nombre, tipo, escuela}
+    // Actualizar carrera
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Carrera> postActualizarCarrera(@Valid @NotNull @RequestBody Map<String, String> body, @PathVariable Integer id) {
 

@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,6 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private AlumnoServiceImpl alumnoService;
-    @Autowired
-    private PerfilServiceImpl perfilService;
     @Autowired
     private DocenteServiceImpl docenteService;
     @Autowired
@@ -62,20 +61,15 @@ public class UsuarioController {
         Usuario newUsuario = new Usuario(
                 body.get("username"),
                 bCryptPasswordEncoder.encode(body.get("password")),
+                body.get("perfil"),
                 dateFormat.format(date),
-                dateFormat.format(date),
-                perfilService.findById(Integer.parseInt(body.get("perfil"))).get(),
-                null,
-                null,
-                null,
-                null,
-                null
+                dateFormat.format(date)
         );
 
-        // Crear datos de perfil (Tablas segun el perfil)
+        // Crear datos de perfil
         switch (body.get("perfil")) {
             // Alumno
-            case "2":
+            case "ALUMNO":
                 if (!alumnoService.findByRut(body.get("rut")).isPresent()) {
                     Alumno newAlumno = new Alumno(
                             body.get("rut"),
@@ -96,7 +90,7 @@ public class UsuarioController {
 
                 break;
             // Docente
-            case "3":
+            case "DOCENTE":
                 if (!docenteService.findByRut(body.get("rut")).isPresent()) {
                     Docente newDocente = new Docente(
                             body.get("rut"),
@@ -116,7 +110,7 @@ public class UsuarioController {
                 }
                 break;
             // Coordinador
-            case "4":
+            case "COORDINADOR":
                 if (!coordinadorService.findByRut(body.get("rut")).isPresent()) {
                     Coordinador newCoordinador = new Coordinador(
                             body.get("rut"),
@@ -136,7 +130,7 @@ public class UsuarioController {
                 }
                 break;
             // Director
-            case "5":
+            case "DIRECTOR":
                 if (!directorService.findByRut(body.get("rut")).isPresent()) {
                     Director newDirector = new Director(
                             body.get("rut"),
@@ -156,7 +150,7 @@ public class UsuarioController {
                 }
                 break;
             // Panolero
-            case "6":
+            case "PANOLERO":
                 if (!panoleroService.findByRut(body.get("rut")).isPresent()) {
                     Panolero newPanolero = new Panolero(
                             body.get("rut"),
@@ -173,6 +167,7 @@ public class UsuarioController {
                     newUsuario.setPanolero(newPanolero);
                     valid = true;
                 }
+                break;
             default:
                 break;
         }
@@ -180,6 +175,130 @@ public class UsuarioController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(usuarioRepository.save(newUsuario));
+    }
+
+    @PostMapping("/usuario/saveAll")
+    public ResponseEntity<List<Usuario>> postCrearUsuarios(@Valid @RequestBody @NotNull ArrayList<Map<String, String>> body) {
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        boolean valid = false;
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        int index = 0;
+        for (Map<String, String> object : body) {
+            if (!usuarioRepository.findByUsername(object.get("username")).isPresent() || !object.get("perfil").isEmpty()) {
+                Usuario usuario = new Usuario(
+                        object.get("username"),
+                        bCryptPasswordEncoder.encode(object.get("password")),
+                        object.get("perfil"),
+                        dateFormat.format(date),
+                        dateFormat.format(date)
+                );
+
+                switch (object.get("perfil")) {
+                    // Alumno
+                    case "ALUMNO":
+                        if (!alumnoService.findByRut(object.get("rut")).isPresent()) {
+                            Alumno newAlumno = new Alumno(
+                                    object.get("rut"),
+                                    object.get("apellidoPaterno"),
+                                    object.get("apellidoMaterno"),
+                                    object.get("nombre"),
+                                    object.get("telefono"),
+                                    object.get("correoAlumno"),
+                                    "activo",
+                                    dateFormat.format(date),
+                                    dateFormat.format(date),
+                                    carreraService.findById(Integer.parseInt(object.get("carrera"))).get()
+                            );
+                            newAlumno = alumnoService.save(newAlumno);
+                            usuario.setAlumno(newAlumno);
+                        }
+                        break;
+                    // Docente
+                    case "DOCENTE":
+                        if (!docenteService.findByRut(object.get("rut")).isPresent()) {
+                            Docente newDocente = new Docente(
+                                    object.get("rut"),
+                                    object.get("apellidoPaterno"),
+                                    object.get("apellidoMaterno"),
+                                    object.get("nombre"),
+                                    object.get("telefono"),
+                                    object.get("correoDocente"),
+                                    "activo",
+                                    dateFormat.format(date),
+                                    dateFormat.format(date),
+                                    escuelaService.findById(Integer.parseInt(object.get("escuela"))).get()
+                            );
+                            newDocente = docenteService.save(newDocente);
+                            usuario.setDocente(newDocente);
+                        }
+                        break;
+                    // Coordinador
+                    case "COORDINADOR":
+                        if (!coordinadorService.findByRut(object.get("rut")).isPresent()) {
+                            Coordinador newCoordinador = new Coordinador(
+                                    object.get("rut"),
+                                    object.get("apellidoPaterno"),
+                                    object.get("apellidoMaterno"),
+                                    object.get("nombre"),
+                                    object.get("telefono"),
+                                    object.get("correoCoordinador"),
+                                    "activo",
+                                    dateFormat.format(date),
+                                    dateFormat.format(date),
+                                    escuelaService.findById(Integer.parseInt(object.get("escuela"))).get()
+                            );
+                            newCoordinador = coordinadorService.save(newCoordinador);
+                            usuario.setCoordinador(newCoordinador);
+                        }
+                        break;
+                    // Director
+                    case "DIRECTOR":
+                        if (!directorService.findByRut(object.get("rut")).isPresent()) {
+                            Director newDirector = new Director(
+                                    object.get("rut"),
+                                    object.get("apellidoPaterno"),
+                                    object.get("apellidoMaterno"),
+                                    object.get("nombre"),
+                                    object.get("telefono"),
+                                    object.get("correoDirector"),
+                                    "activo",
+                                    dateFormat.format(date),
+                                    dateFormat.format(date),
+                                    escuelaService.findById(Integer.parseInt(object.get("escuela"))).get()
+                            );
+                            newDirector = directorService.save(newDirector);
+                            usuario.setDirector(newDirector);
+                        }
+                        break;
+                    // Panolero
+                    case "PANOLERO":
+                        if (!panoleroService.findByRut(object.get("rut")).isPresent()) {
+                            Panolero newPanolero = new Panolero(
+                                    object.get("rut"),
+                                    object.get("apellidoPaterno"),
+                                    object.get("apellidoMaterno"),
+                                    object.get("nombre"),
+                                    object.get("telefono"),
+                                    object.get("correoPanolero"),
+                                    "activo",
+                                    dateFormat.format(date),
+                                    dateFormat.format(date)
+                            );
+                            newPanolero = panoleroService.save(newPanolero);
+                            usuario.setPanolero(newPanolero);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                usuarios.add(usuario);
+            }
+        }
+
+        return ResponseEntity.ok(usuarioRepository.saveAll(usuarios));
     }
 
     // Obtener todos los usuarios
@@ -191,7 +310,7 @@ public class UsuarioController {
     // Obtener usuarios por "username"
     @GetMapping("/usuario/{username}")
     public Usuario getUsuario(@PathVariable String username) {
-        return usuarioRepository.findByUsername(username);
+        return usuarioRepository.findByUsername(username).get();
     }
 
     // Actualizar usuario
@@ -204,10 +323,10 @@ public class UsuarioController {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-        Usuario usuario = usuarioRepository.findByUsername(username);
+        Usuario usuario = usuarioRepository.findByUsername(username).get();
         usuario.setPassword(bCryptPasswordEncoder.encode(body.get("password")));
         usuario.setFechaActualizacion(dateFormat.format(date));
-        usuario.setPerfil(perfilService.findById(Integer.parseInt(body.get("perfil"))).get());
+        usuario.setPerfil(body.get("perfil"));
         usuario.setUsername(body.get("username"));
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }

@@ -16,6 +16,9 @@ public class Usuario {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
+    @Column(name = "PERFIL", length = 100, nullable = false)
+    private String perfil;
+
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 
@@ -23,9 +26,6 @@ public class Usuario {
     private String fechaActualizacion;
 
     // Relaciones
-    @ManyToOne
-    private Perfil perfil;
-
     @ManyToOne
     private Alumno alumno;
 
@@ -45,20 +45,24 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String username, String password, String fechaCreacion, String fechaActualizacion, Perfil perfil, Alumno alumno, Docente docente, Director director, Coordinador coordinador, Panolero panolero) {
+    public Usuario(String username, String password, String perfil, String fechaCreacion, String fechaActualizacion) {
         this.username = username;
         this.password = password;
+        this.perfil = perfil;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
-        this.perfil = perfil;
-        this.alumno = alumno;
-        this.docente = docente;
-        this.director = director;
-        this.coordinador = coordinador;
-        this.panolero = panolero;
     }
 
     // Getters & Setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -75,6 +79,14 @@ public class Usuario {
         this.password = password;
     }
 
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
+    }
+
     public String getFechaCreacion() {
         return fechaCreacion;
     }
@@ -89,14 +101,6 @@ public class Usuario {
 
     public void setFechaActualizacion(String fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
-    }
-
-    public Perfil getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
     }
 
     public Alumno getAlumno() {
