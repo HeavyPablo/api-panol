@@ -33,7 +33,8 @@ public class Producto {
     @ManyToOne
     private Subcategoria subcategoria;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "productos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     private Set<Solicitud> solicitudes;
 
     // Constructores

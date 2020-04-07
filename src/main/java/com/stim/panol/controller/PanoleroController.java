@@ -64,6 +64,11 @@ public class PanoleroController {
         return ResponseEntity.ok(panoleroService.findById(id));
     }
 
+    @GetMapping("{rut}")
+    public ResponseEntity<Panolero> getByRutPanolero(@RequestParam String rut) {
+        return ResponseEntity.ok(panoleroService.findByRut(rut).get());
+    }
+
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Panolero> postActualizarPanolero(@Valid @NotNull @RequestBody Map<String, String> body, @PathVariable Integer id) {
         if (!panoleroService.findById(id).isPresent()) {

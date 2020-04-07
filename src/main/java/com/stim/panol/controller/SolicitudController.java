@@ -41,32 +41,27 @@ public class SolicitudController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Solicitud> postCrearSolicitud(@Valid @NotNull @RequestBody Map<String, List<String>> body) {
+    public ResponseEntity<Solicitud> postCrearSolicitud(@Valid @NotNull @RequestBody Map<String, List<Map<String, String>>> body) {
 
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-
-        List<String> packProductos = new ArrayList<>(Arrays.asList(body.get("productos").get(0).split(",")));
-        Map<String, String> mapProductos = new HashMap<>();
-
         Set<Producto> productos = new HashSet<>();
 
-        for (String pack : packProductos) {
-            pack = pack.substring(1, pack.length() - 1);
-            String[] entry = pack.split("=");
-
-            productos.add(productoService.findById(Integer.parseInt(entry[1].trim())).get());
+        for (Map<String, String> objects : body.get("productos")) {
+            productos.add(
+                    productoService.findById(Integer.parseInt(objects.get("id"))).get()
+            );
         }
 
         Solicitud solicitud = new Solicitud(
-                body.get("comentario"),
-                body.get("tipo"),
+                body.get("solicitud").get(0).get("comentario"),
+                body.get("solicitud").get(0).get("tipo"),
                 "pendiente",
                 dateFormat.format(date),
                 dateFormat.format(date),
-                usuarioService.findByUsername(body.get("solicitante")).get(),
-                panoleroService.findByRut(body.get("responsable")).get(),
+                usuarioService.findByUsername(body.get("solicitud").get(0).get("solicitante")).get(),
+                panoleroService.findByRut(body.get("solicitud").get(0).get("responsable")).get(),
                 productos
         );
 

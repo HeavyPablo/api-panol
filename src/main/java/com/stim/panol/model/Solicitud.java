@@ -35,7 +35,8 @@ public class Solicitud {
     @ManyToOne
     private Panolero panolero;
 
-    @ManyToMany(mappedBy = "solicitudes")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable
     private Set<Producto> productos;
 
     // Constructores
