@@ -76,4 +76,39 @@ public class SolicitudController {
 
         return ResponseEntity.ok(solicitudService.findById(id).get());
     }
+
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Solicitud> postActualizarSolicitud(@Valid @NotNull@ RequestBody Map<String, List<Map<String, String>>> body, @PathVariable Integer id) {
+        if (!solicitudService.findById(id).isPresent()) {
+            return null;
+        }
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        Solicitud solicitud = solicitudService.findById(id).get();
+
+        if (!body.get("productos").isEmpty()) {
+
+            Set<Producto> productos = new HashSet<>();
+
+            for (Map<String, String> objects : body.get("productos")) {
+                productos.add(
+                        productoService.findById(Integer.parseInt(objects.get("id"))).get()
+                );
+            }
+
+            solicitud.setProductos(productos);
+        }
+
+        if (body.get("solicitud").get(0).containsKey("comentario")) solicitud.setComentario(body.get("solicitud").get(0).get("comentario"));
+        if (body.get("solicitud").get(0).containsKey("estado")) solicitud.setEstado(body.get("solicitud").get(0).get("estado"));
+        if (body.get("solicitud").get(0).containsKey("tipoSolicitud")) solicitud.setTipoSolicitud(body.get("solicitud").get(0).get("tipo"));
+        if (body.get("solicitud").get(0).containsKey("responsable")) solicitud.setPanolero(panoleroService.findByRut(body.get("solicitud").get(0).get("responsable")).get());
+        if (body.get("solicitud").get(0).containsKey("solicitante")) solicitud.setUsuario(usuarioService.findByUsername(body.get("solicitud").get(0).get("solicitante")).get());
+        solicitud.setFechaActualizacion(dateFormat.format(date));
+
+        return ResponseEntity.ok(solicitudService.save(solicitud));
+    }
+
 }
