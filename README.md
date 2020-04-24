@@ -274,4 +274,4 @@ localhost:8080/usuario?rut={rut}      //GetByRut
 ```
 
 ## Extras
-**Tutorial para API:** https://drive.google.com/open?id=1F_XmjsXmWdA4tbXcJ7YbM9_iUbmCyAkY
+**Material Complementario:** https://drive.google.com/open?id=1F_XmjsXmWdA4tbXcJ7YbM9_iUbmCyAkY
