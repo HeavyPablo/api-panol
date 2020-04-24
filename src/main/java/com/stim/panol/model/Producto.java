@@ -115,12 +115,4 @@ public class Producto {
     public void setSubcategoria(Subcategoria subcategoria) {
         this.subcategoria = subcategoria;
     }
-
-    public Set<Solicitud> getSolicitudes() {
-        return solicitudes;
-    }
-
-    public void setSolicitudes(Set<Solicitud> solicitudes) {
-        this.solicitudes = solicitudes;
-    }
 }

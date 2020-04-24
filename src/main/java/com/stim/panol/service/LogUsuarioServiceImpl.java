@@ -33,4 +33,5 @@ public class LogUsuarioServiceImpl implements LogUsuarioService{
     public LogUsuario save(LogUsuario logUsuario) {
         return logUsuarioRepository.save(logUsuario);
     }
+
 }
