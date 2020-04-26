@@ -23,6 +23,9 @@ public class Producto {
     @Column(name = "CANTIDAD", nullable = false)
     private String cantidad;
 
+    @Column(name = "CANTIDAD_EN_USO")
+    private String cantidadEnUso = "0";
+
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 
@@ -90,6 +93,14 @@ public class Producto {
 
     public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getCantidadEnUso() {
+        return cantidadEnUso;
+    }
+
+    public void setCantidadEnUso(String cantidadEnUso) {
+        this.cantidadEnUso = cantidadEnUso;
     }
 
     public String getFechaCreacion() {
