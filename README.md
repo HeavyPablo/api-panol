@@ -21,6 +21,9 @@ mvnw spring-boot:run
 ```
 Cuando corran el comando les creara las tablas y todas las weas de relaciones etc etc. jajaj.
 
+## Extras
+**Material Complementario:** https://drive.google.com/open?id=1F_XmjsXmWdA4tbXcJ7YbM9_iUbmCyAkY
+
 ## Funcionalidades
 
 ### Lista de URLs API (en construccion..)
@@ -273,5 +276,44 @@ localhost:8080/usuario?rut={rut}      //GetByRut
 }
 ```
 
-## Extras
-**Material Complementario:** https://drive.google.com/open?id=1F_XmjsXmWdA4tbXcJ7YbM9_iUbmCyAkY
+## Sistema de solicitud de productos
+
+Para solicitar un producto, la solicitud debe ser enviada con el estado `entregada` dentro del JSON, además debe de contener los productos. Por ejemplo:
+```
+{
+	"solicitud": [
+		{
+			"estado": "entregada"
+		}
+	],
+	"productos": [
+		{
+			"id": "1"
+		},
+		{
+			"id": "2"
+		}
+	]
+}
+```
+Solo con esto basta para que se busquen los productos y se "resten" del stock total. Decimos "resten", pero en realidad un producto tiene dos campos, `CANTIDAD`(cantidad total del producto) y `CANTIDAD_EN_USO`(cantidad del producto que esta en uso por el alumno o docente), `CANTIDAD_EN_USO` va a ir **sumando** si se envia la solicitud con estado `entregada`.  
+
+Por otro lado, si se envia la solicitud con estado `completada` con sus respectivos productos, entonces `CANTIDAD_EN_USO` se **restara**.  
+
+>**Nota importante:**
+>Al cambiar la `CANTIDAD_EN_USO` el sistema valida si esta es menor a `CANTIDAD`, y si es igual o se sobrepasa de almenos uno de los productos, retornará un JSON con una solicitud vacía. Algo como esto:
+>```
+>{
+>    "id": 0,
+>    "comentario": null,
+>    "tipoSolicitud": null,
+>    "estado": null,
+>    "fechaCreacion": null,
+>    "fechaActualizacion": null,
+>    "usuario": null,
+>    "panolero": null,
+>    "productos": null
+>}
+>```
+>Con esto podemos validar si los productos de la solicitud estan disponibles.  
+>Esto pasará cuando el Pañolero le vaya a entregar los productos al Alumno o Docente.
