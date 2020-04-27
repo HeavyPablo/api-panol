@@ -36,6 +36,10 @@ public class Producto {
     @ManyToOne
     private Subcategoria subcategoria;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "IMAGEN_PRODUCTO_ID", referencedColumnName = "ID")
+    private ImagenProducto imagenProducto;
+
     @ManyToMany(mappedBy = "productos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 
     private Set<Solicitud> solicitudes;
@@ -125,5 +129,13 @@ public class Producto {
 
     public void setSubcategoria(Subcategoria subcategoria) {
         this.subcategoria = subcategoria;
+    }
+
+    public ImagenProducto getImagenProducto() {
+        return imagenProducto;
+    }
+
+    public void setImagenProducto(ImagenProducto imagenProducto) {
+        this.imagenProducto = imagenProducto;
     }
 }

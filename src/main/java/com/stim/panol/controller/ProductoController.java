@@ -1,22 +1,23 @@
 package com.stim.panol.controller;
 
+import com.stim.panol.model.ImagenProducto;
 import com.stim.panol.model.Producto;
+import com.stim.panol.service.ImagenProductoServiceImpl;
 import com.stim.panol.service.ProductoServiceImpl;
 import com.stim.panol.service.SubcategoriaServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/producto")
@@ -27,6 +28,9 @@ public class ProductoController {
     private ProductoServiceImpl productoService;
 
     @Autowired
+    private ImagenProductoServiceImpl imagenProductoService;
+
+    @Autowired
     private SubcategoriaServiceImpl subcategoriaService;
 
     @GetMapping
@@ -34,11 +38,18 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.findAll());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Producto> postCrearProducto(@Valid @NotNull @RequestBody Map<String, String> body) {
+    @PostMapping
+    public ResponseEntity<Producto> postCrearProducto(@RequestParam(value = "body") String json,
+                                                      @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
 
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Map<String, String> body = mapper.readValue(json, Map.class);
+
+        System.out.println(body.get("nombre"));
 
         Producto producto = new Producto(
                 body.get("nombre"),
@@ -49,6 +60,10 @@ public class ProductoController {
                 dateFormat.format(date),
                 subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get()
         );
+
+        ImagenProducto imagen = imagenProductoService.storeFile(file);
+
+        producto.setImagenProducto(imagen);
 
         return ResponseEntity.ok(productoService.save(producto));
     }
