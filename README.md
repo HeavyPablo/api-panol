@@ -228,32 +228,6 @@ localhost:8080/usuario?rut={rut}      //GetByRut
 ]
 ```
 
-**Producto**
-```
-{
-  "nombre": "...",
-  "descripcion": "...",
-  "cantidad": "...",
-  "subcategoria": "..."   --> ID de la subcategoria
-}
-```
-```
-[
-  {
-    "nombre": "...",
-    "descripcion": "...",
-    "cantidad": "...",
-    "subcategoria": "..."   --> ID de la subcategoria
-  },
-  {
-    "nombre": "...",
-    "descripcion": "...",
-    "cantidad": "...",
-    "subcategoria": "..."   --> ID de la subcategoria
-  }, etc...
-]
-```
-
 **Solicitud**
 ```
 {
@@ -274,6 +248,40 @@ localhost:8080/usuario?rut={rut}      //GetByRut
 		}, etc....
 	]
 }
+```
+
+**Producto**
+Crear varios productos a la vez:
+```
+[
+  {
+    "nombre": "...",
+    "descripcion": "...",
+    "cantidad": "...",
+    "subcategoria": "..."   --> ID de la subcategoria
+  },
+  {
+    "nombre": "...",
+    "descripcion": "...",
+    "cantidad": "...",
+    "subcategoria": "..."   --> ID de la subcategoria
+  }, etc...
+]
+```
+
+## Crear productos con una imagen
+En el Postman, se debe hacer mediante `form-data`, En una fila poner la clave `file` y cambiar el tipo de dato a `File`, y en el contenido seleccionar el archivo de imagen. En la siguiente fila poner la clave `body` con el tipo de dato `Text`, y en el contenido el JSON con los demas datos del producto. Por ejemplo:
+```
+-----------------------------------------------------------------------------------------
+| file			| "seleccionar archivo"						|
+-----------------------------------------------------------------------------------------
+| body			| {								|
+|			|     "nombre": "...",						|
+|			|     "descripcion": "...",					|
+|			|     "cantidad": "...",					|
+|			|     "subcategoria": "..."   --> ID de la subcategoria		|
+|			|   }								|
+-----------------------------------------------------------------------------------------
 ```
 
 ## Sistema de solicitud de productos
