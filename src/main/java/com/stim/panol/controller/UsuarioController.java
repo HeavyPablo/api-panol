@@ -308,9 +308,18 @@ public class UsuarioController {
     }
 
     // Obtener usuarios por "username"
-    @GetMapping("/usuario/{username}")
+    @GetMapping("/usuario/username/{username}")
     public Usuario getUsuario(@PathVariable String username) {
         return usuarioRepository.findByUsername(username).get();
+    }
+
+    @GetMapping("usuario/perfil/{perfil}")
+    public ResponseEntity<List<Usuario>> getUsuarioPerfil(@PathVariable String perfil) {
+        if (usuarioRepository.findByPerfil(perfil.toUpperCase()) == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(usuarioRepository.findByPerfil(perfil.toUpperCase()));
     }
 
     // Actualizar usuario
