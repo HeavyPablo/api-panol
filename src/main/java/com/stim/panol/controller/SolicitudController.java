@@ -79,9 +79,6 @@ public class SolicitudController {
 
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<Solicitud>> getByEstado(@PathVariable String estado) {
-        if (solicitudService.findByEstado(estado).size() <= 0) {
-            return null;
-        }
 
         return ResponseEntity.ok(solicitudService.findByEstado(estado));
     }
