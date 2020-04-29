@@ -20,6 +20,11 @@ public class SolicitudServiceImpl implements SolicitudService{
     }
 
     @Override
+    public List<Solicitud> findByEstado(String estado) {
+        return solicitudRepository.findByEstado(estado);
+    }
+
+    @Override
     public <S extends Solicitud> List<S> saveAll(Iterable<S> entities) {
         return solicitudRepository.saveAll(entities);
     }

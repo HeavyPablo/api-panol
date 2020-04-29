@@ -77,6 +77,15 @@ public class SolicitudController {
         return ResponseEntity.ok(solicitudService.findById(id).get());
     }
 
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<Solicitud>> getByEstado(@PathVariable String estado) {
+        if (solicitudService.findByEstado(estado).size() <= 0) {
+            return null;
+        }
+
+        return ResponseEntity.ok(solicitudService.findByEstado(estado));
+    }
+
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Solicitud> postActualizarSolicitud(@Valid @NotNull@ RequestBody Map<String, List<Map<String, String>>> body, @PathVariable Integer id) {
         if (!solicitudService.findById(id).isPresent()) {

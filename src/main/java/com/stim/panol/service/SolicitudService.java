@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface SolicitudService {
     List<Solicitud> findAll();
+    List<Solicitud> findByEstado(String estado);
     <S extends Solicitud> List<S> saveAll(Iterable<S> entities);
     Optional<Solicitud> findById(Integer id);
     Solicitud save(Solicitud solicitud);
