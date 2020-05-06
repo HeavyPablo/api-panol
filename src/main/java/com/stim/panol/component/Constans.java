@@ -8,5 +8,5 @@ public class Constans {
 
     // JWT
     public static final String SUPER_SECRET_KEY = "rHdJa7ilw9j2TMU2x0HbnFCfXqQEmy2L1thlqp0XyYD2vd1BHLt8xV6sYJbuU90"; // clave unica
-    public static final long TOKEN_EXPIRATION_TIME = 180_000; // tiempo de expiracion del token = 1 dias
+    public static final long TOKEN_EXPIRATION_TIME = 86_400_000; // tiempo de expiracion del token = 1 dias
 }
