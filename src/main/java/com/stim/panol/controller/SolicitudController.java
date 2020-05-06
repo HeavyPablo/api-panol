@@ -47,6 +47,7 @@ public class SolicitudController {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
         Set<Producto> productos = new HashSet<>();
+        String estado = "";
 
         for (Map<String, String> objects : body.get("productos")) {
             productos.add(
@@ -54,10 +55,16 @@ public class SolicitudController {
             );
         }
 
+        if (body.get("solicitud").get(0).get("tipo").equals("NORMAL")) {
+            estado = "pendiente";
+        } else {
+            estado = "esperando";
+        }
+
         Solicitud solicitud = new Solicitud(
                 body.get("solicitud").get(0).get("comentario"),
                 body.get("solicitud").get(0).get("tipo"),
-                "pendiente",
+                estado,
                 dateFormat.format(date),
                 dateFormat.format(date),
                 usuarioService.findByUsername(body.get("solicitud").get(0).get("solicitante")).get(),
