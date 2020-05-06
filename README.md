@@ -56,7 +56,6 @@ localhost:8080/panolero               //GetAll, PostCrear
 localhost:8080/panolero/{id}          //GetById, PostAcualizar
 
 localhost:8080/producto               //GetAll, PostCrear
-localhost:8080/producto/saveAll       //PostCrear por lotes
 localhost:8080/producto/{id}          //GetById, PostAcualizar
 
 localhost:8080/solicitud              //GetAll, PostCrear
@@ -66,9 +65,11 @@ localhost:8080/subcategoria           //GetAll, PostCrear
 localhost:8080/subcategoria/saveAll   //PostCrear por lotes
 localhost:8080/subcategoria/{id}      //GetById, PostAcualizar
 
-localhost:8080/usuario                //GetAll, PostCrear
-localhost:8080/usuario/{id}           //GetById, PostAcualizar
-localhost:8080/usuario?rut={rut}      //GetByRut
+localhost:8080/usuario                  //GetAll, PostCrear
+localhost:8080/usuario/{id}             //GetById, PostAcualizar
+localhost:8080/usuario?rut={rut}        //GetByRut
+localhost:8080/usuario/perfil/{perfil}  //GetUsuarioPerfil
+localhost:8080/usuario/estado/{estado}  //GetUsuarioEstado
 ...
 ```
 
@@ -250,27 +251,8 @@ localhost:8080/usuario?rut={rut}      //GetByRut
 }
 ```
 
-**Producto**
-Crear varios productos a la vez:
-```
-[
-  {
-    "nombre": "...",
-    "descripcion": "...",
-    "cantidad": "...",
-    "subcategoria": "..."   --> ID de la subcategoria
-  },
-  {
-    "nombre": "...",
-    "descripcion": "...",
-    "cantidad": "...",
-    "subcategoria": "..."   --> ID de la subcategoria
-  }, etc...
-]
-```
-
-## Crear productos con una imagen
-En el Postman, se debe hacer mediante `form-data`, En una fila poner la clave `file` y cambiar el tipo de dato a `File`, y en el contenido seleccionar el archivo de imagen. En la siguiente fila poner la clave `body` con el tipo de dato `Text`, y en el contenido el JSON con los demas datos del producto. Por ejemplo:
+## Crear productos (con imagen)
+En el Postman, se debe hacer mediante `form-data`, En una fila poner la clave `file` y cambiar el tipo de dato a `File`, y en el contenido seleccionar el archivo de imagen. En la siguiente fila poner la clave `body` con el tipo de dato `Text`, y en el contenido, el JSON con los demas datos del producto. Por ejemplo:
 ```
 -----------------------------------------------------------------------------------------
 | file			| "seleccionar archivo"						|
