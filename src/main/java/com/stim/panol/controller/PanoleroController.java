@@ -47,7 +47,6 @@ public class PanoleroController {
                 body.get("nombre"),
                 body.get("telefono"),
                 body.get("correoPanolero"),
-                "activo",
                 dateFormat.format(date),
                 dateFormat.format(date)
         );

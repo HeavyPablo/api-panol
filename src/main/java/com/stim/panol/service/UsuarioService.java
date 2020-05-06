@@ -11,4 +11,5 @@ public interface UsuarioService {
     <S extends Usuario> List<S> saveAll(Iterable<S> entities);
     Optional<Usuario> findByUsername(String username);
     Usuario save(Usuario usuario);
+    List<Usuario> findByEstado(String estado);
 }

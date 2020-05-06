@@ -28,9 +28,6 @@ public class Coordinador {
     @Column(name = "CORREO_COORDINADOR", length = 150, nullable = false)
     private String correoCoordinador;
 
-    @Column(name = "ESTADO", length = 150, nullable = false)
-    private String estado;
-
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 
@@ -45,14 +42,13 @@ public class Coordinador {
     public Coordinador() {
     }
 
-    public Coordinador(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoCoordinador, String estado, String fechaCreacion, String fechaActualizacion, Escuela escuela) {
+    public Coordinador(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoCoordinador, String fechaCreacion, String fechaActualizacion, Escuela escuela) {
         this.rut = rut;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoCoordinador = correoCoordinador;
-        this.estado = estado;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
         this.escuela = escuela;
@@ -114,14 +110,6 @@ public class Coordinador {
 
     public void setCorreoCoordinador(String correoCoordinador) {
         this.correoCoordinador = correoCoordinador;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public String getFechaCreacion() {

@@ -62,6 +62,7 @@ public class UsuarioController {
                 body.get("username"),
                 bCryptPasswordEncoder.encode(body.get("password")),
                 body.get("perfil"),
+                "activo",
                 dateFormat.format(date),
                 dateFormat.format(date)
         );
@@ -78,7 +79,6 @@ public class UsuarioController {
                             body.get("nombre"),
                             body.get("telefono"),
                             body.get("correoAlumno"),
-                            "activo",
                             dateFormat.format(date),
                             dateFormat.format(date),
                             carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
@@ -99,7 +99,6 @@ public class UsuarioController {
                             body.get("nombre"),
                             body.get("telefono"),
                             body.get("correoDocente"),
-                            "activo",
                             dateFormat.format(date),
                             dateFormat.format(date),
                             escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
@@ -119,7 +118,6 @@ public class UsuarioController {
                             body.get("nombre"),
                             body.get("telefono"),
                             body.get("correoCoordinador"),
-                            "activo",
                             dateFormat.format(date),
                             dateFormat.format(date),
                             escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
@@ -139,7 +137,6 @@ public class UsuarioController {
                             body.get("nombre"),
                             body.get("telefono"),
                             body.get("correoDirector"),
-                            "activo",
                             dateFormat.format(date),
                             dateFormat.format(date),
                             escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
@@ -159,7 +156,6 @@ public class UsuarioController {
                             body.get("nombre"),
                             body.get("telefono"),
                             body.get("correoPanolero"),
-                            "activo",
                             dateFormat.format(date),
                             dateFormat.format(date)
                     );
@@ -192,6 +188,7 @@ public class UsuarioController {
                         object.get("username"),
                         bCryptPasswordEncoder.encode(object.get("password")),
                         object.get("perfil"),
+                        "activo",
                         dateFormat.format(date),
                         dateFormat.format(date)
                 );
@@ -207,7 +204,6 @@ public class UsuarioController {
                                     object.get("nombre"),
                                     object.get("telefono"),
                                     object.get("correoAlumno"),
-                                    "activo",
                                     dateFormat.format(date),
                                     dateFormat.format(date),
                                     carreraService.findById(Integer.parseInt(object.get("carrera"))).get()
@@ -226,7 +222,6 @@ public class UsuarioController {
                                     object.get("nombre"),
                                     object.get("telefono"),
                                     object.get("correoDocente"),
-                                    "activo",
                                     dateFormat.format(date),
                                     dateFormat.format(date),
                                     escuelaService.findById(Integer.parseInt(object.get("escuela"))).get()
@@ -245,7 +240,6 @@ public class UsuarioController {
                                     object.get("nombre"),
                                     object.get("telefono"),
                                     object.get("correoCoordinador"),
-                                    "activo",
                                     dateFormat.format(date),
                                     dateFormat.format(date),
                                     escuelaService.findById(Integer.parseInt(object.get("escuela"))).get()
@@ -264,7 +258,6 @@ public class UsuarioController {
                                     object.get("nombre"),
                                     object.get("telefono"),
                                     object.get("correoDirector"),
-                                    "activo",
                                     dateFormat.format(date),
                                     dateFormat.format(date),
                                     escuelaService.findById(Integer.parseInt(object.get("escuela"))).get()
@@ -283,7 +276,6 @@ public class UsuarioController {
                                     object.get("nombre"),
                                     object.get("telefono"),
                                     object.get("correoPanolero"),
-                                    "activo",
                                     dateFormat.format(date),
                                     dateFormat.format(date)
                             );
@@ -322,17 +314,26 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioRepository.findByPerfil(perfil.toUpperCase()));
     }
 
+    @GetMapping("usuario/estado/{estado}")
+    public ResponseEntity<List<Usuario>> getUsuarioEstado(@PathVariable String estado) {
+        if (usuarioRepository.findByEstado(estado).isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(usuarioRepository.findByEstado(estado.toLowerCase()));
+    }
+
     // Actualizar usuario
     @PostMapping("/usuario/{username}")
     public ResponseEntity<Usuario> postActualizarUsuario(@Valid @RequestBody @NotNull Map<String, String> body, @PathVariable String username) {
-        if (usuarioRepository.findByUsername(username) == null) {
+        if (!usuarioRepository.findByUsername(username).isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-        Usuario usuario = usuarioRepository.findByUsername(username).get();
+        Usuario usuario = usuarioRepository.findByUsername(username.toLowerCase()).get();
         usuario.setPassword(bCryptPasswordEncoder.encode(body.get("password")));
         usuario.setFechaActualizacion(dateFormat.format(date));
         usuario.setPerfil(body.get("perfil"));

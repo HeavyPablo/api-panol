@@ -51,7 +51,6 @@ public class AlumnoController {
                 body.get("nombre"),
                 body.get("telefono"),
                 body.get("correoAlumno"),
-                "activo",
                 dateFormat.format(date),
                 dateFormat.format(date),
                 carreraService.findById(Integer.parseInt(body.get("carrera"))).get()

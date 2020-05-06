@@ -52,7 +52,6 @@ public class DirectorController {
                 body.get("nombre"),
                 body.get("telefono"),
                 body.get("correoDirector"),
-                "activo",
                 dateFormat.format(date),
                 dateFormat.format(date),
                 escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()

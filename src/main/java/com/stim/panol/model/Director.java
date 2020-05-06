@@ -28,9 +28,6 @@ public class Director {
     @Column(name = "CORREO_DIRECTOR", length = 150, nullable = false)
     private String correoDirector;
 
-    @Column(name = "ESTADO", length = 150, nullable = false)
-    private String estado;
-
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 
@@ -45,14 +42,13 @@ public class Director {
     public Director() {
     }
 
-    public Director(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoDirector, String estado, String fechaCreacion, String fechaActualizacion, Escuela escuela) {
+    public Director(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoDirector, String fechaCreacion, String fechaActualizacion, Escuela escuela) {
         this.rut = rut;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoDirector = correoDirector;
-        this.estado = estado;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
         this.escuela = escuela;
@@ -114,14 +110,6 @@ public class Director {
 
     public void setCorreoDirector(String correoDirector) {
         this.correoDirector = correoDirector;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public String getFechaCreacion() {

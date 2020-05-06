@@ -51,7 +51,6 @@ public class CoordinadorController {
                 body.get("nombre"),
                 body.get("telefono"),
                 body.get("correoCoordinador"),
-                "activo",
                 dateFormat.format(date),
                 dateFormat.format(date),
                 escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()

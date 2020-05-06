@@ -28,9 +28,6 @@ public class Panolero {
     @Column(name = "CORREO_PANOLERO", length = 150, nullable = false)
     private String correoPanolero;
 
-    @Column(name = "ESTADO", length = 150, nullable = false)
-    private String estado;
-
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 
@@ -41,14 +38,13 @@ public class Panolero {
     public Panolero() {
     }
 
-    public Panolero(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoPanolero, String estado, String fechaCreacion, String fechaActualizacion) {
+    public Panolero(String rut, String apellidoPaterno, String apellidoMaterno, String nombre, String telefono, String correoPanolero, String fechaCreacion, String fechaActualizacion) {
         this.rut = rut;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.nombre = nombre;
         this.telefono = telefono;
         this.correoPanolero = correoPanolero;
-        this.estado = estado;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
     }
@@ -109,14 +105,6 @@ public class Panolero {
 
     public void setCorreoPanolero(String correoPanolero) {
         this.correoPanolero = correoPanolero;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public String getFechaCreacion() {

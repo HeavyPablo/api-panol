@@ -19,6 +19,9 @@ public class Usuario {
     @Column(name = "PERFIL", length = 100, nullable = false)
     private String perfil;
 
+    @Column(name = "ESTADO", length = 150, nullable = false)
+    private String estado;
+
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 
@@ -45,10 +48,11 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String username, String password, String perfil, String fechaCreacion, String fechaActualizacion) {
+    public Usuario(String username, String password, String perfil, String estado, String fechaCreacion, String fechaActualizacion) {
         this.username = username;
         this.password = password;
         this.perfil = perfil;
+        this.estado = estado;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
     }
@@ -85,6 +89,14 @@ public class Usuario {
 
     public void setPerfil(String perfil) {
         this.perfil = perfil;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getFechaCreacion() {
