@@ -39,4 +39,9 @@ public class ImagenProductoServiceImpl implements ImagenProductoService{
     public ImagenProducto getFile(int id) {
         return imagenProductoRepository.findById(id).get();
     }
+
+    @Override
+    public void deleteFile(int id) {
+        imagenProductoRepository.deleteById(id);
+    }
 }

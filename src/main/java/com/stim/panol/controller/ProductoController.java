@@ -100,8 +100,11 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.findById(id).get());
     }
 
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Producto> postActualizarProducto(@Valid @NotNull @RequestBody  Map<String, String> body, @PathVariable Integer id) {
+    @PostMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Producto> postActualizarProducto(@RequestParam(value = "file", required = false) MultipartFile file,
+                                                           @RequestParam(value = "body") String json,
+                                                           @PathVariable Integer id) throws Exception {
+
         if (!productoService.findById(id).isPresent()) {
             return null;
         }
@@ -109,15 +112,26 @@ public class ProductoController {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> body = mapper.readValue(json, Map.class);
+
         Producto producto = productoService.findById(id).get();
-        Producto newPrducto = new Producto();
 
-        newPrducto.setNombre(body.get("nombre"));
-        newPrducto.setDescripcion(body.get("descripcion"));
-        newPrducto.setEstado(body.get("estado"));
-        newPrducto.setFechaActualizacion(dateFormat.format(date));
-        newPrducto.setSubcategoria(subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get());
+        int imagenIdOld = producto.getImagenProducto().getId();
 
-        return ResponseEntity.ok(productoService.save(producto));
+        ImagenProducto imagen = imagenProductoService.storeFile(file);
+        producto.setImagenProducto(imagen);
+
+        if (body.containsKey("nombre")) { producto.setNombre(body.get("nombre")); }
+        if (body.containsKey("descripcion")) { producto.setDescripcion(body.get("descripcion")); }
+        if (body.containsKey("estado")) { producto.setEstado(body.get("estado")); }
+        if (body.containsKey("cantidad")) { producto.setCantidad(body.get("cantidad")); }
+        if (body.containsKey("cantidadEnUso")) { producto.setCantidadEnUso(body.get("cantidadEnUso")); }
+        producto.setFechaActualizacion(dateFormat.format(date));
+        if (body.containsKey("subcategoria")) { producto.setSubcategoria(subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get()); }
+
+        productoService.save(producto);
+        imagenProductoService.deleteFile(imagenIdOld);
+        return ResponseEntity.ok(producto);
     }
 }
