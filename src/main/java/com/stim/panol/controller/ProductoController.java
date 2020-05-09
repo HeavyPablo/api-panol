@@ -119,8 +119,10 @@ public class ProductoController {
 
         int imagenIdOld = producto.getImagenProducto().getId();
 
-        ImagenProducto imagen = imagenProductoService.storeFile(file);
-        producto.setImagenProducto(imagen);
+        if (file != null) {
+            ImagenProducto imagen = imagenProductoService.storeFile(file);
+            producto.setImagenProducto(imagen);
+        }
 
         if (body.containsKey("nombre")) { producto.setNombre(body.get("nombre")); }
         if (body.containsKey("descripcion")) { producto.setDescripcion(body.get("descripcion")); }
@@ -131,7 +133,9 @@ public class ProductoController {
         if (body.containsKey("subcategoria")) { producto.setSubcategoria(subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get()); }
 
         productoService.save(producto);
-        imagenProductoService.deleteFile(imagenIdOld);
+        if (file != null) {
+            imagenProductoService.deleteFile(imagenIdOld);
+        }
         return ResponseEntity.ok(producto);
     }
 }
