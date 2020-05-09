@@ -334,10 +334,32 @@ public class UsuarioController {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
         Usuario usuario = usuarioRepository.findByUsername(username.toLowerCase()).get();
-        usuario.setPassword(bCryptPasswordEncoder.encode(body.get("password")));
+        //usuario.setPassword(bCryptPasswordEncoder.encode(body.get("password")));
         usuario.setFechaActualizacion(dateFormat.format(date));
         usuario.setPerfil(body.get("perfil"));
         usuario.setUsername(body.get("username"));
+        usuario.setEstado(body.get("estado"));
+
+
+        
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
+
+    // Actualizar usuario segun el estado
+    @PostMapping("/usuario/ActEst/{username}")
+    public ResponseEntity<Usuario> postActualizarEstado(@Valid @RequestBody @NotNull Map<String, String> body, @PathVariable String username) {
+        if (!usuarioRepository.findByUsername(username).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        Usuario usuario = usuarioRepository.findByUsername(username.toLowerCase()).get();
+        usuario.setFechaActualizacion(dateFormat.format(date));
+        usuario.setUsername(body.get("username"));
+        usuario.setEstado(body.get("estado"));
+        return ResponseEntity.ok(usuarioRepository.save(usuario));
+    }
+
 }
