@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.Subcategoria;
 import com.stim.panol.repository.SubcategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class SubcategoriaServiceImpl implements SubcategoriaService{
 
     @Override
     public List<Subcategoria> findAll() {
-        return subcategoriaRepository.findAll();
+        return subcategoriaRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

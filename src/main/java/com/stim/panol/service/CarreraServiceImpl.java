@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.Carrera;
 import com.stim.panol.repository.CarreraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class CarreraServiceImpl implements CarreraService {
 
     @Override
     public List<Carrera> findAll() {
-        return carreraRepository.findAll();
+        return carreraRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

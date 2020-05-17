@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.LogSolicitud;
 import com.stim.panol.repository.LogSolicitudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class LogSolicitudServiceImpl implements LogSolicitudService{
 
     @Override
     public List<LogSolicitud> findAll() {
-        return logSolicitudRepository.findAll();
+        return logSolicitudRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

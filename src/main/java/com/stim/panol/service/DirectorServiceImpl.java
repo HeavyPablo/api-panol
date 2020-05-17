@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.Director;
 import com.stim.panol.repository.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class DirectorServiceImpl implements DirectorService{
 
     @Override
     public List<Director> findAll() {
-        return directorRepository.findAll();
+        return directorRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

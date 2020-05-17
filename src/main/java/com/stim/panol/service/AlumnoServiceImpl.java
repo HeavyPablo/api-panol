@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.Alumno;
 import com.stim.panol.repository.AlumnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public List<Alumno> findAll() {
-        return alumnoRepository.findAll();
+        return alumnoRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.Producto;
 import com.stim.panol.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public List<Producto> findAll() {
-        return productoRepository.findAll();
+        return productoRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

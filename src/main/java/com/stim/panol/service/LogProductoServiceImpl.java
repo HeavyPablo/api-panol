@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.LogProducto;
 import com.stim.panol.repository.LogProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class LogProductoServiceImpl implements LogProductoService {
 
     @Override
     public List<LogProducto> findAll() {
-        return logProductoRepository.findAll();
+        return logProductoRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

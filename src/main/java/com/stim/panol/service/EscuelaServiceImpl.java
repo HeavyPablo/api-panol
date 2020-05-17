@@ -4,6 +4,7 @@ import com.stim.panol.model.Escuela;
 import com.stim.panol.repository.EscuelaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class EscuelaServiceImpl implements EscuelaService {
 
     @Override
     public List<Escuela> findAll() {
-        return escuelaRepository.findAll();
+        return escuelaRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

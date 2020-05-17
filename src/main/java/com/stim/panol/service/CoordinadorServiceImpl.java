@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.Coordinador;
 import com.stim.panol.repository.CoordinadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class CoordinadorServiceImpl implements CoordinadorService {
 
     @Override
     public List<Coordinador> findAll() {
-        return coordinadorRepository.findAll();
+        return coordinadorRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override

@@ -100,7 +100,7 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.findById(id).get());
     }
 
-    @PostMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{id}")
     public ResponseEntity<Producto> postActualizarProducto(@RequestParam(value = "file", required = false) MultipartFile file,
                                                            @RequestParam(value = "body") String json,
                                                            @PathVariable Integer id) throws Exception {

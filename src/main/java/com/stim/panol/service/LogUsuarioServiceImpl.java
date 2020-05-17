@@ -3,6 +3,7 @@ package com.stim.panol.service;
 import com.stim.panol.model.LogUsuario;
 import com.stim.panol.repository.LogUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class LogUsuarioServiceImpl implements LogUsuarioService{
 
     @Override
     public List<LogUsuario> findAll() {
-        return logUsuarioRepository.findAll();
+        return logUsuarioRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
     }
 
     @Override
