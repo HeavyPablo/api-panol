@@ -17,7 +17,13 @@ public class SolicitudServiceImpl implements SolicitudService{
 
     @Override
     public List<Solicitud> findAll() {
-        return solicitudRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        List<Solicitud> solicitudes = solicitudRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        for (int i = 0; i < solicitudes.size(); i++) {
+            if (solicitudes.get(i).getEstado().equals("descartada")) {
+                solicitudes.remove(i);
+            }
+        }
+        return solicitudes;
     }
 
     @Override

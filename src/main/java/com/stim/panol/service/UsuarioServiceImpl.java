@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<Usuario> findAll() {
-        return usuarioRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return usuarioRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override
@@ -38,5 +39,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Usuario> findByEstado(String estado) {
         return usuarioRepository.findByEstado(estado);
+    }
+
+    @Override
+    public List<Usuario> findUsersFront() {
+        ArrayList<String> perfiles = new ArrayList<>();
+        perfiles.add("ALUMNO");
+        perfiles.add("DOCENTE");
+        return usuarioRepository.findByPerfilIn(perfiles);
     }
 }

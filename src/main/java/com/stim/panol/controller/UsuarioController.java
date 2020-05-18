@@ -36,7 +36,8 @@ public class UsuarioController {
     private CarreraServiceImpl carreraService;
     @Autowired
     private EscuelaServiceImpl escuelaService;
-
+    @Autowired
+    private UsuarioService usuarioService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -54,7 +55,7 @@ public class UsuarioController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         boolean valid = false;
 
@@ -177,7 +178,7 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> postCrearUsuarios(@Valid @RequestBody @NotNull ArrayList<Map<String, String>> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         boolean valid = false;
         ArrayList<Usuario> usuarios = new ArrayList<>();
@@ -331,7 +332,7 @@ public class UsuarioController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Usuario usuario = usuarioRepository.findByUsername(username.toLowerCase()).get();
         //usuario.setPassword(bCryptPasswordEncoder.encode(body.get("password")));
@@ -353,7 +354,7 @@ public class UsuarioController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Usuario usuario = usuarioRepository.findByUsername(username.toLowerCase()).get();
         usuario.setFechaActualizacion(dateFormat.format(date));
@@ -362,4 +363,8 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
 
+    @GetMapping("/usuario/front")
+    public ResponseEntity<List<Usuario>> getUsuariosFront() {
+        return ResponseEntity.ok(usuarioService.findUsersFront());
+    }
 }

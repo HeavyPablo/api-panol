@@ -38,7 +38,7 @@ public class SubcategoriaController {
     public ResponseEntity<Subcategoria> postCrearSubcategoria(@Valid @NotNull @RequestBody Map<String, String> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Subcategoria subcategoria = new Subcategoria(
                 body.get("nombre"),
@@ -54,7 +54,7 @@ public class SubcategoriaController {
     public ResponseEntity<List<Subcategoria>> postCrearSubcategorias(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ArrayList<Subcategoria> subcategorias = new ArrayList<>();
 
@@ -86,7 +86,7 @@ public class SubcategoriaController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Subcategoria subcategoria = subcategoriaService.findById(id).get();
 
         subcategoria.setNombre(body.get("nombre"));

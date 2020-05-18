@@ -34,7 +34,7 @@ public class EscuelaController {
     public ResponseEntity<Escuela> postCrearEscuela(@Valid @NotNull @RequestBody Map<String, String> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Escuela escuela = new Escuela(
                 body.get("nombre"),
@@ -50,7 +50,7 @@ public class EscuelaController {
     public ResponseEntity<List<Escuela>> postCrearEscuelas(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ArrayList<Escuela> escuelas = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class EscuelaController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Escuela escuela = escuelaService.findById(id).get();
         escuela.setNombre(body.get("nombre"));

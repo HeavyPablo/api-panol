@@ -42,7 +42,7 @@ public class AlumnoController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Alumno alumno = new Alumno(
                 body.get("rut"),
@@ -77,7 +77,7 @@ public class AlumnoController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Alumno alumno = alumnoService.findById(id).get();
 

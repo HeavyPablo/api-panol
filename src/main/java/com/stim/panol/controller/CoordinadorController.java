@@ -42,7 +42,7 @@ public class CoordinadorController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Coordinador coordinador = new Coordinador(
                 body.get("rut"),
@@ -75,7 +75,7 @@ public class CoordinadorController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Coordinador coordinador = coordinadorService.findById(id).get();
 

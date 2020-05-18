@@ -43,7 +43,7 @@ public class ProductoController {
                                                       @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -72,7 +72,7 @@ public class ProductoController {
     public ResponseEntity<List<Producto>> postCrearProductos(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ArrayList<Producto> productos = new ArrayList<>();
 
@@ -110,7 +110,7 @@ public class ProductoController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> body = mapper.readValue(json, Map.class);

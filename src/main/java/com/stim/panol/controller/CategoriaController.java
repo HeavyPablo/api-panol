@@ -35,7 +35,7 @@ public class CategoriaController {
     public ResponseEntity<Categoria> postCrearCategoria(@Valid @NotNull @RequestBody Map<String, String> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Categoria categoria = new Categoria(
                 body.get("nombre"),
@@ -50,7 +50,7 @@ public class CategoriaController {
     public ResponseEntity<List<Categoria>> postCrearCategorias(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ArrayList<Categoria> categorias = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class CategoriaController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Categoria categoria = categoriaService.findById(id).get();
 

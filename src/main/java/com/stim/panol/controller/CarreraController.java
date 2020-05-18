@@ -37,7 +37,7 @@ public class CarreraController {
     public ResponseEntity<Carrera> postCrearCarrera(@Valid @NotNull @RequestBody Map<String, String> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Carrera newCarrera = new Carrera(
                 body.get("nombre"),
@@ -58,7 +58,7 @@ public class CarreraController {
     public ResponseEntity<List<Carrera>> postCrearCarreras(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ArrayList<Carrera> carreras = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class CarreraController {
     public ResponseEntity<Carrera> postActualizarCarrera(@Valid @NotNull @RequestBody Map<String, String> body, @PathVariable Integer id) {
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         if (!carreraService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();

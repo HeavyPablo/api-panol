@@ -97,7 +97,7 @@ public class SolicitudController {
         }
 
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Solicitud solicitud = solicitudService.findById(id).get();
 
@@ -154,4 +154,21 @@ public class SolicitudController {
         return ResponseEntity.ok(solicitudService.save(solicitud));
     }
 
+    @RequestMapping("/borrar/{id}")
+    public ResponseEntity<Solicitud> postDesabilitarUsuario(@PathVariable Integer id) {
+        if (!solicitudService.findById(id).isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Solicitud solicitud = solicitudService.findById(id).get();
+
+        if (solicitud.getEstado().equals("pendiente") || solicitud.getEstado().equals("esperando")) {
+            solicitud.setEstado("descartada");
+        }
+
+        return ResponseEntity.ok(solicitudService.save(solicitud));
+    }
 }

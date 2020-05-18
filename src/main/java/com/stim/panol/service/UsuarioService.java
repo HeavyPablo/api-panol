@@ -12,4 +12,5 @@ public interface UsuarioService {
     Optional<Usuario> findByUsername(String username);
     Usuario save(Usuario usuario);
     List<Usuario> findByEstado(String estado);
+    List<Usuario> findUsersFront();
 }
