@@ -17,7 +17,7 @@ public class PanoleroServiceImpl implements PanoleroService {
 
     @Override
     public List<Panolero> findAll() {
-        return panoleroRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return panoleroRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

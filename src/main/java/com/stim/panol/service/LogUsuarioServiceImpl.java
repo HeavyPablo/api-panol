@@ -17,7 +17,7 @@ public class LogUsuarioServiceImpl implements LogUsuarioService{
 
     @Override
     public List<LogUsuario> findAll() {
-        return logUsuarioRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return logUsuarioRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

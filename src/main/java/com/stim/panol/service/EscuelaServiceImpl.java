@@ -21,7 +21,7 @@ public class EscuelaServiceImpl implements EscuelaService {
 
     @Override
     public List<Escuela> findAll() {
-        return escuelaRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return escuelaRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

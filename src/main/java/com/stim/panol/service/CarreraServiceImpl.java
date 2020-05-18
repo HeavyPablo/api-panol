@@ -20,7 +20,7 @@ public class CarreraServiceImpl implements CarreraService {
 
     @Override
     public List<Carrera> findAll() {
-        return carreraRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return carreraRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

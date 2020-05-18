@@ -17,7 +17,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public List<Categoria> findAll() {
-        return categoriaRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return categoriaRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

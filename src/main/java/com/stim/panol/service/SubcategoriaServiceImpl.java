@@ -17,7 +17,7 @@ public class SubcategoriaServiceImpl implements SubcategoriaService{
 
     @Override
     public List<Subcategoria> findAll() {
-        return subcategoriaRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return subcategoriaRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

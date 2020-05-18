@@ -17,7 +17,7 @@ public class DocenteServiceImpl implements DocenteService {
 
     @Override
     public List<Docente> findAll() {
-        return docenteRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return docenteRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

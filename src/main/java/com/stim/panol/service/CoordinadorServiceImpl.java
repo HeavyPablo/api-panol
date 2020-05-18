@@ -17,7 +17,7 @@ public class CoordinadorServiceImpl implements CoordinadorService {
 
     @Override
     public List<Coordinador> findAll() {
-        return coordinadorRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return coordinadorRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

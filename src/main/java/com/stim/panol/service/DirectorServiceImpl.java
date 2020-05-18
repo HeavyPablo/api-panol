@@ -17,7 +17,7 @@ public class DirectorServiceImpl implements DirectorService{
 
     @Override
     public List<Director> findAll() {
-        return directorRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return directorRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override

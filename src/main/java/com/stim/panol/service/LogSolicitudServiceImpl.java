@@ -17,7 +17,7 @@ public class LogSolicitudServiceImpl implements LogSolicitudService{
 
     @Override
     public List<LogSolicitud> findAll() {
-        return logSolicitudRepository.findAll(Sort.by(Sort.Direction.ASC, "fechaCreacion"));
+        return logSolicitudRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
 
     @Override
