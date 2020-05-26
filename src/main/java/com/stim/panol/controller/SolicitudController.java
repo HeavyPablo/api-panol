@@ -1,7 +1,9 @@
 package com.stim.panol.controller;
 
+import com.stim.panol.model.Panolero;
 import com.stim.panol.model.Producto;
 import com.stim.panol.model.Solicitud;
+import com.stim.panol.model.Usuario;
 import com.stim.panol.service.PanoleroServiceImpl;
 import com.stim.panol.service.ProductoServiceImpl;
 import com.stim.panol.service.SolicitudServiceImpl;
@@ -48,6 +50,9 @@ public class SolicitudController {
 
         Set<Producto> productos = new HashSet<>();
         String estado = "";
+        Panolero responsable = null;
+        String tipo = "NORMAL";
+        String comentario = "";
 
         for (Map<String, String> objects : body.get("productos")) {
             productos.add(
@@ -55,20 +60,27 @@ public class SolicitudController {
             );
         }
 
-        if (body.get("solicitud").get(0).get("tipo").equals("NORMAL")) {
+        if (body.get("solicitud").get(0).containsKey("comentario")) {comentario = body.get("solicitud").get(0).get("comentario");}
+        if (body.get("solicitud").get(0).containsKey("tipo")) {
+            tipo = body.get("solicitud").get(0).get("tipo");
+        }
+        if (tipo.equals("NORMAL")) {
             estado = "pendiente";
         } else {
             estado = "esperando";
         }
+        if (body.get("solicitud").get(0).containsKey("responsable")) {
+            responsable = panoleroService.findByRut(body.get("solicitud").get(0).get("responsable")).get();
+        }
 
         Solicitud solicitud = new Solicitud(
-                body.get("solicitud").get(0).get("comentario"),
-                body.get("solicitud").get(0).get("tipo"),
+                comentario,
+                tipo,
                 estado,
                 dateFormat.format(date),
                 dateFormat.format(date),
                 usuarioService.findByUsername(body.get("solicitud").get(0).get("solicitante")).get(),
-                panoleroService.findByRut(body.get("solicitud").get(0).get("responsable")).get(),
+                responsable,
                 productos
         );
 
