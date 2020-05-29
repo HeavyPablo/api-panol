@@ -28,7 +28,7 @@ public class SolicitudServiceImpl implements SolicitudService{
 
     @Override
     public List<Solicitud> findByEstado(String estado) {
-        return solicitudRepository.findByEstado(estado);
+        return solicitudRepository.findByEstadoOrderByFechaCreacionDesc(estado);
     }
 
     @Override

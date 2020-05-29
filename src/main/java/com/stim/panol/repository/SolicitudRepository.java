@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
-    List<Solicitud> findByEstado(String estado);
+    List<Solicitud> findByEstadoOrderByFechaCreacionDesc(String estado);
 }
