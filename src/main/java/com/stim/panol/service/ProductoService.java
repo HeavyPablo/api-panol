@@ -10,4 +10,5 @@ public interface ProductoService {
     <S extends Producto> List<S> saveAll(Iterable<S> entities);
     Optional<Producto> findById(Integer id);
     Producto save(Producto producto);
+    void deleteById(Integer id);
 }

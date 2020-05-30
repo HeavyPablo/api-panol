@@ -138,4 +138,13 @@ public class ProductoController {
         }
         return ResponseEntity.ok(producto);
     }
+
+    @GetMapping("/borrar/{id}")
+    public ResponseEntity<Producto> deleteByIdProducto(@PathVariable Integer id) {
+        if (!productoService.findById(id).isPresent()) {
+            return null;
+        }
+        productoService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
