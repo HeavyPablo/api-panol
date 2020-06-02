@@ -3,13 +3,19 @@ package com.stim.panol.controller;
 import com.stim.panol.model.*;
 import com.stim.panol.repository.UsuarioRepository;
 import com.stim.panol.service.*;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -366,5 +372,63 @@ public class UsuarioController {
     @GetMapping("/usuario/front")
     public ResponseEntity<List<Usuario>> getUsuariosFront() {
         return ResponseEntity.ok(usuarioService.findUsersFront());
+    }
+
+
+    @RequestMapping(value = "/usuario/import-excel", method = RequestMethod.POST)
+    public ResponseEntity<List<Usuario>> importExcelFile(@RequestParam("file") MultipartFile files) throws IOException {
+        HttpStatus status = HttpStatus.OK;
+
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        XSSFWorkbook workbook = new XSSFWorkbook(files.getInputStream());
+        XSSFSheet worksheet = workbook.getSheetAt(0);
+
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+
+
+        for (int index = 0; index < worksheet.getPhysicalNumberOfRows(); index++) {
+            if (index > 0) {
+
+                XSSFRow row = worksheet.getRow(index);
+                //Integer id = (int) row.getCell(0).getNumericCellValue();
+
+                // cuidado al usar el rut en el excel, hay que establecer la forma de ingresarlo al sistema
+                //recordar implementar una contraseña dinamica para el usuario.
+
+                Usuario newUsuario = new Usuario();
+                newUsuario.setUsername(row.getCell(0).getStringCellValue());
+                newUsuario.setPassword(bCryptPasswordEncoder.encode("1234"));
+                newUsuario.setPerfil("ALUMNO");
+                newUsuario.setEstado("activo");
+                newUsuario.setFechaCreacion(dateFormat.format(date));
+                newUsuario.setFechaActualizacion(dateFormat.format(date));
+                // Crear datos de perfil
+
+                            Alumno newAlumno = new Alumno();
+                                    newAlumno.setRut(row.getCell(0).getStringCellValue());
+                                    newAlumno.setApellidoPaterno(row.getCell(1).getStringCellValue());
+                                    newAlumno.setApellidoMaterno(row.getCell(2).getStringCellValue());
+                                    newAlumno.setNombre(row.getCell(3).getStringCellValue());
+                                    newAlumno.setTelefono(row.getCell(5).getStringCellValue());
+                                    newAlumno.setCorreoAlumno(row.getCell(6).getStringCellValue());
+                                    newAlumno.setFechaActualizacion(dateFormat.format(date));
+                                    newAlumno.setFechaCreacion(dateFormat.format(date));
+                                    Integer id = (int) row.getCell(4).getNumericCellValue();
+                                    newAlumno.setCarrera(carreraService.findById(id).get());
+                                    //carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
+
+                            newAlumno = alumnoService.save(newAlumno);
+                            newUsuario.setAlumno(newAlumno);
+
+                    usuarios.add(newUsuario);
+                }
+
+
+        }
+
+        return ResponseEntity.ok(usuarioRepository.saveAll(usuarios));
     }
 }
