@@ -2,9 +2,8 @@ package com.stim.panol.controller;
 
 import com.stim.panol.model.ImagenProducto;
 import com.stim.panol.model.Producto;
-import com.stim.panol.service.ImagenProductoServiceImpl;
-import com.stim.panol.service.ProductoServiceImpl;
-import com.stim.panol.service.SubcategoriaServiceImpl;
+import com.stim.panol.model.Solicitud;
+import com.stim.panol.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,7 +30,13 @@ public class ProductoController {
     private ImagenProductoServiceImpl imagenProductoService;
 
     @Autowired
+    private EscuelaServiceImpl escuelaService;
+
+    @Autowired
     private SubcategoriaServiceImpl subcategoriaService;
+
+    @Autowired
+    private SolicitudServiceImpl solicitudService;
 
     @GetMapping
     public ResponseEntity<List<Producto>> getProducto() {
@@ -55,9 +60,9 @@ public class ProductoController {
                 body.get("nombre"),
                 "nuevo",
                 body.get("descripcion"),
-                body.get("cantidad"),
                 dateFormat.format(date),
                 dateFormat.format(date),
+                escuelaService.findById(Integer.parseInt(body.get("escuela"))).get(),
                 subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get()
         );
 
@@ -81,9 +86,9 @@ public class ProductoController {
                     object.get("nombre"),
                     "nuevo",
                     object.get("descripcion"),
-                    object.get("cantidad"),
                     dateFormat.format(date),
                     dateFormat.format(date),
+                    escuelaService.findById(Integer.parseInt(object.get("escuela"))).get(),
                     subcategoriaService.findById(Integer.parseInt(object.get("subcategoria"))).get()
             ));
         }
@@ -127,9 +132,8 @@ public class ProductoController {
         if (body.containsKey("nombre")) { producto.setNombre(body.get("nombre")); }
         if (body.containsKey("descripcion")) { producto.setDescripcion(body.get("descripcion")); }
         if (body.containsKey("estado")) { producto.setEstado(body.get("estado")); }
-        if (body.containsKey("cantidad")) { producto.setCantidad(body.get("cantidad")); }
-        if (body.containsKey("cantidadEnUso")) { producto.setCantidadEnUso(body.get("cantidadEnUso")); }
         producto.setFechaActualizacion(dateFormat.format(date));
+        if (body.containsKey("escuela")) { producto.setEscuela(escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()); }
         if (body.containsKey("subcategoria")) { producto.setSubcategoria(subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get()); }
 
         productoService.save(producto);
@@ -146,5 +150,27 @@ public class ProductoController {
         }
         productoService.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/filtro/{filtro}")
+    public ResponseEntity<List<Producto>> findByEstado(@PathVariable String filtro) {
+        if (filtro.equals("todo")) {
+            return ResponseEntity.ok(productoService.findAll());
+        }
+        if (filtro.equals("enuso")) {
+            List<Solicitud> solicitudesEntregadas = solicitudService.findByEstado("entregada");
+            List<Producto> productosEnUso = new ArrayList<>();
+            for (Solicitud solicitudes : solicitudesEntregadas) {
+                productosEnUso.addAll(solicitudes.getProductos());
+            }
+            return ResponseEntity.ok(productosEnUso);
+        }
+        if (filtro.equals("pocostock")) {
+            
+        }
+        if (filtro.equals("sinstock")) {
+
+        }
+        return ResponseEntity.ok(productoService.findByEstado(filtro));
     }
 }

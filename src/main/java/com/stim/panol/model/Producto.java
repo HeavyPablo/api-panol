@@ -20,12 +20,6 @@ public class Producto {
     @Column(name = "DESCRIPCION", length = 200)
     private String descripcion;
 
-    @Column(name = "CANTIDAD", nullable = false)
-    private String cantidad;
-
-    @Column(name = "CANTIDAD_EN_USO")
-    private String cantidadEnUso = "0";
-
     @Column(name = "FECHA_CREACION", nullable = false)
     private String fechaCreacion;
 
@@ -33,6 +27,9 @@ public class Producto {
     private String fechaActualizacion;
 
     // Relaciones
+    @ManyToOne
+    private Escuela escuela;
+
     @ManyToOne
     private Subcategoria subcategoria;
 
@@ -48,13 +45,13 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, String estado, String descripcion, String cantidad, String fechaCreacion, String fechaActualizacion, Subcategoria subcategoria) {
+    public Producto(String nombre, String estado, String descripcion, String fechaCreacion, String fechaActualizacion, Escuela escuela, Subcategoria subcategoria) {
         this.nombre = nombre;
         this.estado = estado;
         this.descripcion = descripcion;
-        this.cantidad = cantidad;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
+        this.escuela = escuela;
         this.subcategoria = subcategoria;
     }
 
@@ -91,22 +88,6 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public String getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(String cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getCantidadEnUso() {
-        return cantidadEnUso;
-    }
-
-    public void setCantidadEnUso(String cantidadEnUso) {
-        this.cantidadEnUso = cantidadEnUso;
-    }
-
     public String getFechaCreacion() {
         return fechaCreacion;
     }
@@ -125,6 +106,14 @@ public class Producto {
 
     public Subcategoria getSubcategoria() {
         return subcategoria;
+    }
+
+    public Escuela getEscuela() {
+        return escuela;
+    }
+
+    public void setEscuela(Escuela escuela) {
+        this.escuela = escuela;
     }
 
     public void setSubcategoria(Subcategoria subcategoria) {

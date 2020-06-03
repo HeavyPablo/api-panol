@@ -39,4 +39,9 @@ public class ProductoServiceImpl implements ProductoService{
     public void deleteById(Integer id) {
         productoRepository.deleteById(id);
     }
+
+    @Override
+    public List<Producto> findByEstado(String estado) {
+        return productoRepository.findByEstado(estado);
+    }
 }
