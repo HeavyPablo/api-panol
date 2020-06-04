@@ -1,8 +1,6 @@
 package com.stim.panol.controller;
 
-import com.stim.panol.model.ImagenProducto;
-import com.stim.panol.model.Producto;
-import com.stim.panol.model.Solicitud;
+import com.stim.panol.model.*;
 import com.stim.panol.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +56,7 @@ public class ProductoController {
 
         Producto producto = new Producto(
                 body.get("nombre"),
-                "nuevo",
+                "disponible",
                 body.get("descripcion"),
                 dateFormat.format(date),
                 dateFormat.format(date),
@@ -84,7 +82,7 @@ public class ProductoController {
         for (Map<String, String> object : body) {
             productos.add( new Producto(
                     object.get("nombre"),
-                    "nuevo",
+                    "disponible",
                     object.get("descripcion"),
                     dateFormat.format(date),
                     dateFormat.format(date),
@@ -154,23 +152,70 @@ public class ProductoController {
 
     @GetMapping("/filtro/{filtro}")
     public ResponseEntity<List<Producto>> findByEstado(@PathVariable String filtro) {
-        if (filtro.equals("todo")) {
+        if (filtro.equals("todos")) {
             return ResponseEntity.ok(productoService.findAll());
         }
-        if (filtro.equals("enuso")) {
-            List<Solicitud> solicitudesEntregadas = solicitudService.findByEstado("entregada");
-            List<Producto> productosEnUso = new ArrayList<>();
-            for (Solicitud solicitudes : solicitudesEntregadas) {
-                productosEnUso.addAll(solicitudes.getProductos());
-            }
-            return ResponseEntity.ok(productosEnUso);
-        }
-        if (filtro.equals("pocostock")) {
-            
-        }
-        if (filtro.equals("sinstock")) {
 
+        // STOCK NORMAL = si los productos por subcategoria son mayor o igual a 8
+        if (filtro.equals("stocknormal")) {
+            List<Subcategoria> subcategorias = subcategoriaService.findAll();
+            List<Producto> productos = productoService.findAll();
+            List<Producto> productosStockNormal = new ArrayList<>();
+
+            for (Subcategoria subcategoria : subcategorias) {
+                List<Producto> productoPorSubcategoria = new ArrayList<>();
+                for (Producto producto : productos) {
+                    if (producto.getSubcategoria().getId() == subcategoria.getId() && !producto.getEstado().equals("debaja")) {
+                        productoPorSubcategoria.add(producto);
+                    }
+                }
+                if (productoPorSubcategoria.size() >= 8) {
+                    productosStockNormal.addAll(productoPorSubcategoria);
+                }
+            }
+            return ResponseEntity.ok(productosStockNormal);
         }
+
+        // STOCK BAJO = Si los productos por subcategoria son mayor a 3 y menor a 8
+        if (filtro.equals("stockbajo")) {
+            List<Subcategoria> subcategorias = subcategoriaService.findAll();
+            List<Producto> productos = productoService.findAll();
+            List<Producto> productosStockBajo = new ArrayList<>();
+
+            for (Subcategoria subcategoria : subcategorias) {
+                List<Producto> productoPorSubcategoria = new ArrayList<>();
+                for (Producto producto : productos) {
+                    if (producto.getSubcategoria().getId() == subcategoria.getId() && !producto.getEstado().equals("debaja")) {
+                        productoPorSubcategoria.add(producto);
+                    }
+                }
+                if (3 < productoPorSubcategoria.size() && productoPorSubcategoria.size() < 8) {
+                    productosStockBajo.addAll(productoPorSubcategoria);
+                }
+            }
+            return ResponseEntity.ok(productosStockBajo);
+        }
+        // STOCK CRITICO = Si los productos por subcategoria son menor o igual a 3
+        if (filtro.equals("stockcritico")) {
+            List<Subcategoria> subcategorias = subcategoriaService.findAll();
+            List<Producto> productos = productoService.findAll();
+            List<Producto> productosStockCritico = new ArrayList<>();
+
+            for (Subcategoria subcategoria : subcategorias) {
+                List<Producto> productoPorSubcategoria = new ArrayList<>();
+                for (Producto producto : productos) {
+                    if (producto.getSubcategoria().getId() == subcategoria.getId() && !producto.getEstado().equals("debaja")) {
+                        productoPorSubcategoria.add(producto);
+                    }
+                }
+                if (productoPorSubcategoria.size() <= 3) {
+                    productosStockCritico.addAll(productoPorSubcategoria);
+                }
+            }
+            return ResponseEntity.ok(productosStockCritico);
+        }
+
+        // Estados de producto: enuso, disponible, debaja
         return ResponseEntity.ok(productoService.findByEstado(filtro));
     }
 }

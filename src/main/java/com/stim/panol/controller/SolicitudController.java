@@ -117,9 +117,25 @@ public class SolicitudController {
 
             Set<Producto> productos = new HashSet<>();
 
-            if (body.get("solicitud").get(0).get("estado").equals("pendiente")) {
+            if (body.get("solicitud").get(0).get("estado").equals("pendiente") || body.get("solicitud").get(0).get("estado").equals("esperando")) {
                 for (Map<String, String> objects : body.get("productos")) {
                     Producto producto = productoService.findById(Integer.parseInt(objects.get("id"))).get();
+                    productos.add(producto);
+                }
+                solicitud.setProductos(productos);
+            }
+
+            if (body.get("solicitud").get(0).get("estado").equals("entregada")) {
+                for (Producto producto : solicitud.getProductos()) {
+                    producto.setEstado("enuso");
+                    productos.add(producto);
+                }
+                solicitud.setProductos(productos);
+            }
+
+            if (body.get("solicitud").get(0).get("estado").equals("competada")) {
+                for (Producto producto : solicitud.getProductos()) {
+                    producto.setEstado("disponible");
                     productos.add(producto);
                 }
                 solicitud.setProductos(productos);
