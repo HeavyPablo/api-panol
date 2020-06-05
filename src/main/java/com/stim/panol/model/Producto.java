@@ -38,7 +38,6 @@ public class Producto {
     private ImagenProducto imagenProducto;
 
     @ManyToMany(mappedBy = "productos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-
     private Set<Solicitud> solicitudes;
 
     // Constructores

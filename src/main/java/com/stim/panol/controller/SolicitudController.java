@@ -133,7 +133,7 @@ public class SolicitudController {
                 solicitud.setProductos(productos);
             }
 
-            if (body.get("solicitud").get(0).get("estado").equals("competada")) {
+            if (body.get("solicitud").get(0).get("estado").equals("completada")) {
                 for (Producto producto : solicitud.getProductos()) {
                     producto.setEstado("disponible");
                     productos.add(producto);
@@ -165,6 +165,7 @@ public class SolicitudController {
 
         if (solicitud.getEstado().equals("pendiente") || solicitud.getEstado().equals("esperando")) {
             solicitud.setEstado("descartada");
+            solicitud.setFechaActualizacion(dateFormat.format(date));
         }
 
         return ResponseEntity.ok(solicitudService.save(solicitud));

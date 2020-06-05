@@ -141,15 +141,6 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
-    @GetMapping("/borrar/{id}")
-    public ResponseEntity<Producto> deleteByIdProducto(@PathVariable Integer id) {
-        if (!productoService.findById(id).isPresent()) {
-            return null;
-        }
-        productoService.deleteById(id);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/filtro/{filtro}")
     public ResponseEntity<List<Producto>> findByEstado(@PathVariable String filtro) {
         if (filtro.equals("todos")) {
@@ -217,5 +208,26 @@ public class ProductoController {
 
         // Estados de producto: enuso, disponible, debaja
         return ResponseEntity.ok(productoService.findByEstado(filtro));
+    }
+
+    @RequestMapping("/borrar/{id}")
+    public ResponseEntity<Producto> borrarProducto(@PathVariable Integer id) {
+        if (!productoService.findById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Producto producto = productoService.findById(id).get();
+
+        if (producto.getEstado().equals("enuso")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        producto.setFechaActualizacion(dateFormat.format(date));
+        producto.setEstado("debaja");
+
+        return ResponseEntity.ok(productoService.save(producto));
     }
 }
