@@ -17,6 +17,9 @@ public class Solicitud {
     @Column(name = "TIPO_SOLICITUD", length = 150, nullable = false)
     private String tipoSolicitud;
 
+    @Column(name = "DIAS_SOLICITADOS")
+    private String diasSolicitados;
+
     @Column(name = "ESTADO", length = 150, nullable = false)
     private String estado;
 
@@ -85,6 +88,14 @@ public class Solicitud {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getDiasSolicitados() {
+        return diasSolicitados;
+    }
+
+    public void setDiasSolicitados(String diasSolicitados) {
+        this.diasSolicitados = diasSolicitados;
     }
 
     public String getFechaCreacion() {

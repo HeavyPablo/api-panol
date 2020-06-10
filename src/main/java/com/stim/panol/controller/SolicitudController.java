@@ -1,13 +1,7 @@
 package com.stim.panol.controller;
 
-import com.stim.panol.model.Panolero;
-import com.stim.panol.model.Producto;
-import com.stim.panol.model.Solicitud;
-import com.stim.panol.model.Usuario;
-import com.stim.panol.service.PanoleroServiceImpl;
-import com.stim.panol.service.ProductoServiceImpl;
-import com.stim.panol.service.SolicitudServiceImpl;
-import com.stim.panol.service.UsuarioServiceImpl;
+import com.stim.panol.model.*;
+import com.stim.panol.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,6 +31,9 @@ public class SolicitudController {
     @Autowired
     private ProductoServiceImpl productoService;
 
+    @Autowired
+    private LogSolicitudServiceImpl logSolicitudService;
+
     @GetMapping
     public ResponseEntity<List<Solicitud>> getSolicitud() {
         return ResponseEntity.ok(solicitudService.findAll());
@@ -50,6 +47,7 @@ public class SolicitudController {
 
         Set<Producto> productos = new HashSet<>();
         String estado = "";
+        String diasSolicitados = "";
         Panolero responsable = null;
         String tipo = "NORMAL";
         String comentario = "";
@@ -84,7 +82,31 @@ public class SolicitudController {
                 productos
         );
 
-        return ResponseEntity.ok(solicitudService.save(solicitud));
+        if (estado.equals("esperando") && body.get("solicitud").get(0).containsKey("diasSolicitados")) {
+            diasSolicitados = body.get("solicitud").get(0).get("diasSolicitados");
+            solicitud.setDiasSolicitados(diasSolicitados);
+        }
+
+        solicitud = solicitudService.save(solicitud);
+
+        if (solicitud != null) {
+            int idResponsable = 0;
+            idResponsable = Integer.parseInt(body.get("solicitud").get(0).get("logResponsable"));
+            LogSolicitud logSolicitud = new LogSolicitud(
+                    "crear",
+                    solicitud.getId(),
+                    solicitud.getEstado(),
+                    solicitud.getUsuario().getId(),
+                    idResponsable,
+                    solicitud.getFechaActualizacion(),
+                    solicitud.getFechaCreacion()
+            );
+
+            logSolicitudService.save(logSolicitud);
+            return ResponseEntity.ok(solicitud);
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{id}")
@@ -144,16 +166,36 @@ public class SolicitudController {
 
         if (body.get("solicitud").get(0).containsKey("comentario")) solicitud.setComentario(body.get("solicitud").get(0).get("comentario"));
         if (body.get("solicitud").get(0).containsKey("estado")) solicitud.setEstado(body.get("solicitud").get(0).get("estado"));
+        if (body.get("solicitud").get(0).containsKey("diasSolicitados")) solicitud.setDiasSolicitados(body.get("solicitud").get(0).get("diasSolicitados"));
         if (body.get("solicitud").get(0).containsKey("tipoSolicitud")) solicitud.setTipoSolicitud(body.get("solicitud").get(0).get("tipo"));
         if (body.get("solicitud").get(0).containsKey("responsable")) solicitud.setPanolero(panoleroService.findByRut(body.get("solicitud").get(0).get("responsable")).get());
         if (body.get("solicitud").get(0).containsKey("solicitante")) solicitud.setUsuario(usuarioService.findByUsername(body.get("solicitud").get(0).get("solicitante")).get());
         solicitud.setFechaActualizacion(dateFormat.format(date));
 
-        return ResponseEntity.ok(solicitudService.save(solicitud));
+        solicitud = solicitudService.save(solicitud);
+
+        if (solicitud != null) {
+            int idResponsable = 0;
+            idResponsable = Integer.parseInt(body.get("solicitud").get(0).get("logResponsable"));
+            LogSolicitud logSolicitud = new LogSolicitud(
+                    "actualizar",
+                    solicitud.getId(),
+                    solicitud.getEstado(),
+                    solicitud.getUsuario().getId(),
+                    idResponsable,
+                    solicitud.getFechaActualizacion(),
+                    solicitud.getFechaCreacion()
+            );
+
+            logSolicitudService.save(logSolicitud);
+            return ResponseEntity.ok(solicitud);
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
     @RequestMapping("/borrar/{id}")
-    public ResponseEntity<Solicitud> postDesabilitarUsuario(@PathVariable Integer id) {
+    public ResponseEntity<Solicitud> postDescartarSolicitud(@PathVariable Integer id, @RequestBody Map<String, String> body) {
         if (!solicitudService.findById(id).isPresent()) {
             return ResponseEntity.badRequest().build();
         }
@@ -168,6 +210,25 @@ public class SolicitudController {
             solicitud.setFechaActualizacion(dateFormat.format(date));
         }
 
-        return ResponseEntity.ok(solicitudService.save(solicitud));
+        solicitud = solicitudService.save(solicitud);
+
+        if (solicitud != null) {
+            int idResponsable = 0;
+            idResponsable = Integer.parseInt(body.get("logResponsable"));
+            LogSolicitud logSolicitud = new LogSolicitud(
+                    "deshabilitar",
+                    solicitud.getId(),
+                    solicitud.getEstado(),
+                    solicitud.getUsuario().getId(),
+                    idResponsable,
+                    solicitud.getFechaActualizacion(),
+                    solicitud.getFechaCreacion()
+            );
+
+            logSolicitudService.save(logSolicitud);
+            return ResponseEntity.ok(solicitud);
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 }

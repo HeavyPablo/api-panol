@@ -22,8 +22,8 @@ public class LogProducto {
     @Column(name = "ESTADO", length = 150, nullable = false)
     private String estadoSolicitud;
 
-    @Column(name = "CANTIDAD_ACTUALIZADA", nullable = false)
-    private int cantidadActualizada = 0;
+    @Column(name = "ID_ESCUELA", nullable = false)
+    private int idEscuela;
 
     @Column(name = "ID_PANOLERO_RESPONSABLE", nullable = false)
     private int idResponsable;
@@ -35,12 +35,12 @@ public class LogProducto {
     public LogProducto() {
     }
 
-    public LogProducto(String log, int idProducto, String operacion, String estadoSolicitud, int cantidadActualizada, int idResponsable, String fecha) {
+    public LogProducto(String log, int idProducto, String operacion, String estadoSolicitud, int idEscuela, int idResponsable, String fecha) {
         this.log = log;
         this.idProducto = idProducto;
         this.operacion = operacion;
         this.estadoSolicitud = estadoSolicitud;
-        this.cantidadActualizada = cantidadActualizada;
+        this.idEscuela = idEscuela;
         this.idResponsable = idResponsable;
         this.fecha = fecha;
     }
@@ -87,12 +87,12 @@ public class LogProducto {
         this.estadoSolicitud = estadoSolicitud;
     }
 
-    public int getCantidadActualizada() {
-        return cantidadActualizada;
+    public int getIdEscuela() {
+        return idEscuela;
     }
 
-    public void setCantidadActualizada(int cantidadActualizada) {
-        this.cantidadActualizada = cantidadActualizada;
+    public void setIdEscuela(int idEscuela) {
+        this.idEscuela = idEscuela;
     }
 
     public int getIdResponsable() {

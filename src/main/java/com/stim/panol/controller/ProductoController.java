@@ -36,6 +36,9 @@ public class ProductoController {
     @Autowired
     private SolicitudServiceImpl solicitudService;
 
+    @Autowired
+    private LogProductoServiceImpl logProductoService;
+
     @GetMapping
     public ResponseEntity<List<Producto>> getProducto() {
         return ResponseEntity.ok(productoService.findAll());
@@ -67,10 +70,28 @@ public class ProductoController {
         ImagenProducto imagen = imagenProductoService.storeFile(file);
 
         producto.setImagenProducto(imagen);
+        producto = productoService.save(producto);
 
-        return ResponseEntity.ok(productoService.save(producto));
+        if (producto != null) {
+            LogProducto logProducto = new LogProducto(
+                    "Creacion de producto para " + producto.getEscuela().getNombre(),
+                    producto.getId(),
+                    "crear",
+                    producto.getEstado(),
+                    producto.getEscuela().getId(),
+                    Integer.parseInt(body.get("logResponsable")),
+                    dateFormat.format(date)
+            );
+
+            logProductoService.save(logProducto);
+            return ResponseEntity.ok(producto);
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
+
+    // **************** Este queda sin uso!!!! ********************
     @PostMapping(value = "/saveAll", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Producto>> postCrearProductos(@Valid @NotNull @RequestBody ArrayList<Map<String, String>> body) {
 
@@ -90,7 +111,6 @@ public class ProductoController {
                     subcategoriaService.findById(Integer.parseInt(object.get("subcategoria"))).get()
             ));
         }
-
         return ResponseEntity.ok(productoService.saveAll(productos));
     }
 
@@ -134,11 +154,29 @@ public class ProductoController {
         if (body.containsKey("escuela")) { producto.setEscuela(escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()); }
         if (body.containsKey("subcategoria")) { producto.setSubcategoria(subcategoriaService.findById(Integer.parseInt(body.get("subcategoria"))).get()); }
 
-        productoService.save(producto);
-        if (file != null) {
-            imagenProductoService.deleteFile(imagenIdOld);
+        producto = productoService.save(producto);
+
+        if (producto != null) {
+            LogProducto logProducto = new LogProducto(
+                    "Actualizar producto de " + producto.getEscuela().getNombre(),
+                    producto.getId(),
+                    "actualizar",
+                    producto.getEstado(),
+                    producto.getEscuela().getId(),
+                    Integer.parseInt(body.get("logResponsable")),
+                    dateFormat.format(date)
+            );
+
+            if (file != null) {
+                imagenProductoService.deleteFile(imagenIdOld);
+            }
+
+            logProductoService.save(logProducto);
+            return ResponseEntity.ok(producto);
         }
-        return ResponseEntity.ok(producto);
+
+
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/filtro/{filtro}")
@@ -210,8 +248,9 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.findByEstado(filtro));
     }
 
+
     @RequestMapping("/borrar/{id}")
-    public ResponseEntity<Producto> borrarProducto(@PathVariable Integer id) {
+    public ResponseEntity<Producto> borrarProducto(@PathVariable Integer id, @RequestBody Map<String, String> body) {
         if (!productoService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -228,6 +267,22 @@ public class ProductoController {
         producto.setFechaActualizacion(dateFormat.format(date));
         producto.setEstado("debaja");
 
-        return ResponseEntity.ok(productoService.save(producto));
+        producto = productoService.save(producto);
+
+        if (producto != null) {
+            LogProducto logProducto = new LogProducto(
+                    "Dar de Baja producto de " + producto.getEscuela().getNombre(),
+                    producto.getId(),
+                    "deshabilitar",
+                    producto.getEstado(),
+                    producto.getEscuela().getId(),
+                    Integer.parseInt(body.get("logResponsable")),
+                    dateFormat.format(date)
+            );
+            logProductoService.save(logProducto);
+            return ResponseEntity.ok(producto);
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 }

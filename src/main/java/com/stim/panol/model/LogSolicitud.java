@@ -22,7 +22,7 @@ public class LogSolicitud {
     @Column(name = "ID_USUARIO_SOLICITANTE", nullable = false)
     private int idUsuario;
 
-    @Column(name = "ID_PANOLERO_RESPONSABLE", nullable = false)
+    @Column(name = "ID_USUARIO_RESPONSABLE")
     private int idResponsable;
 
     @Column(name = "FECHA_CAMBIO_SOLICITUD", nullable = false)
