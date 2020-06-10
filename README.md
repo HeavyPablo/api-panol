@@ -57,6 +57,7 @@ localhost:8080/panolero/{id}          //GetById, PostAcualizar
 
 localhost:8080/producto               //GetAll, PostCrear
 localhost:8080/producto/{id}          //GetById, PostAcualizar
+localhost:8080/producto/filtro/{filtro} //findByEstado, Acepta (enuso, disponible, debaja, stockcritico, stockbajo, stocknormal)
 
 localhost:8080/solicitud              //GetAll, PostCrear
 localhost:8080/solicitud/{id}         //GetById, PostAcualizar
@@ -263,6 +264,7 @@ En el Postman, se debe hacer mediante `form-data`, En una fila poner la clave `f
 |			|     "descripcion": "...",					|
 |			|     "cantidad": "...",					|
 |			|     "subcategoria": "..."   --> ID de la subcategoria		|
+|			|     "logResponsable": "..." --> ID responsable		|
 |			|   }								|
 -----------------------------------------------------------------------------------------
 ```
