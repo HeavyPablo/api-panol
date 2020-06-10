@@ -236,6 +236,7 @@ localhost:8080/usuario/estado/{estado}  //GetUsuarioEstado
 		{
 			"comentario": "...",
 			"tipo": "...",
+			"diasSolicitados": "..." -> dias solicitados si es solicitud especial
 			"solicitante": "...",   -> username del usuario qe pide materiales
 			"responsable": "..." -> rut del panolero responsable de esta solicitud
 		}
@@ -286,24 +287,6 @@ Para solicitar un producto, la solicitud debe ser enviada con el estado `entrega
 	]
 }
 ```
-Solo con esto basta para que se busquen los productos y se "resten" del stock total. Decimos "resten", pero en realidad un producto tiene dos campos, `CANTIDAD`(cantidad total del producto) y `CANTIDAD_EN_USO`(cantidad del producto que esta en uso por el alumno o docente), `CANTIDAD_EN_USO` va a ir **sumando** si se envia la solicitud con estado `entregada`.  
+Solo con esto basta para que se busquen los productos y queden en estado de `enuso` del stock total. 
 
-Por otro lado, si se envia la solicitud con estado `completada` con sus respectivos productos, entonces `CANTIDAD_EN_USO` se **restara**.  
-
->**Nota importante:**
->Al cambiar la `CANTIDAD_EN_USO` el sistema valida si esta es menor a `CANTIDAD`, y si es igual o se sobrepasa de almenos uno de los productos, retornará un JSON con una solicitud vacía. Algo como esto:
->```
->{
->    "id": 0,
->    "comentario": null,
->    "tipoSolicitud": null,
->    "estado": null,
->    "fechaCreacion": null,
->    "fechaActualizacion": null,
->    "usuario": null,
->    "panolero": null,
->    "productos": null
->}
->```
->Con esto podemos validar si los productos de la solicitud estan disponibles.  
->Esto pasará cuando el Pañolero le vaya a entregar los productos al Alumno o Docente.
+Por otro lado, si se envia la solicitud con estado `completada` con sus respectivos productos, entonces el `ESTADO` del producto volverá a ser `disponible`.
