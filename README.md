@@ -240,6 +240,7 @@ localhost:8080/usuario/estado/{estado}  //GetUsuarioEstado
 			"diasSolicitados": "..." -> dias solicitados si es solicitud especial
 			"solicitante": "...",   -> username del usuario qe pide materiales
 			"responsable": "..." -> rut del panolero responsable de esta solicitud
+			"logResponable": "..." -> Id del usuario que hizo la accion
 		}
 	],
 	"productos": [
