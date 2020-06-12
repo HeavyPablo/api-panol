@@ -21,6 +21,11 @@ public class LogSolicitudServiceImpl implements LogSolicitudService{
     }
 
     @Override
+    public List<LogSolicitud> findByUsuarioSolicitante(int solicitante) {
+        return logSolicitudRepository.findByIdUsuarioOrderByFechaCambioSolicitudDesc(solicitante);
+    }
+
+    @Override
     public <S extends LogSolicitud> List<S> saveAll(Iterable<S> entities) {
         return logSolicitudRepository.saveAll(entities);
     }

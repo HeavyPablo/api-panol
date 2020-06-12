@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface LogSolicitudService {
     List<LogSolicitud> findAll();
+    List<LogSolicitud> findByUsuarioSolicitante(int solicitante);
     <S extends LogSolicitud> List<S> saveAll(Iterable<S> entities);
     Optional<LogSolicitud> findById(Integer id);
     LogSolicitud save(LogSolicitud logSolicitud);
