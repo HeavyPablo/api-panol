@@ -34,6 +34,9 @@ public class SolicitudController {
     @Autowired
     private LogSolicitudServiceImpl logSolicitudService;
 
+    @Autowired
+    private LogProductoServiceImpl logProductoService;
+
     @GetMapping
     public ResponseEntity<List<Solicitud>> getSolicitud() {
         return ResponseEntity.ok(solicitudService.findAll());
@@ -89,14 +92,27 @@ public class SolicitudController {
 
         solicitud = solicitudService.save(solicitud);
 
+
+
         if (solicitud != null) {
+
+            int escuelaSolicitante =  0;
+            if (solicitud.getUsuario().getAlumno() != null) {
+                escuelaSolicitante = solicitud.getUsuario().getAlumno().getCarrera().getEscuela().getId();
+            } else {
+                escuelaSolicitante = solicitud.getUsuario().getDocente().getEscuela().getId();
+            }
+
             int idResponsable = 0;
             idResponsable = Integer.parseInt(body.get("solicitud").get(0).get("logResponsable"));
+
             LogSolicitud logSolicitud = new LogSolicitud(
                     "crear",
                     solicitud.getId(),
                     solicitud.getEstado(),
                     solicitud.getUsuario().getId(),
+                    solicitud.getTipoSolicitud(),
+                    escuelaSolicitante,
                     idResponsable,
                     solicitud.getFechaActualizacion(),
                     solicitud.getFechaCreacion()
@@ -135,6 +151,9 @@ public class SolicitudController {
 
         Solicitud solicitud = solicitudService.findById(id).get();
 
+        int idResponsable = 0;
+        idResponsable = Integer.parseInt(body.get("solicitud").get(0).get("logResponsable"));
+
         if (!body.get("productos").isEmpty()) {
 
             Set<Producto> productos = new HashSet<>();
@@ -151,6 +170,18 @@ public class SolicitudController {
                 for (Producto producto : solicitud.getProductos()) {
                     producto.setEstado("enuso");
                     productos.add(producto);
+
+                    LogProducto logProducto = new LogProducto(
+                            "Producto en uso de " + producto.getEscuela().getNombre(),
+                            producto.getId(),
+                            "actualizar",
+                            producto.getEstado(),
+                            producto.getEscuela().getId(),
+                            idResponsable,
+                            dateFormat.format(date)
+                    );
+
+                    logProductoService.save(logProducto);
                 }
                 solicitud.setProductos(productos);
             }
@@ -159,6 +190,18 @@ public class SolicitudController {
                 for (Producto producto : solicitud.getProductos()) {
                     producto.setEstado("disponible");
                     productos.add(producto);
+
+                    LogProducto logProducto = new LogProducto(
+                            "Producto devuelto de " + producto.getEscuela().getNombre(),
+                            producto.getId(),
+                            "actualizar",
+                            producto.getEstado(),
+                            producto.getEscuela().getId(),
+                            idResponsable,
+                            dateFormat.format(date)
+                    );
+
+                    logProductoService.save(logProducto);
                 }
                 solicitud.setProductos(productos);
             }
@@ -175,13 +218,20 @@ public class SolicitudController {
         solicitud = solicitudService.save(solicitud);
 
         if (solicitud != null) {
-            int idResponsable = 0;
-            idResponsable = Integer.parseInt(body.get("solicitud").get(0).get("logResponsable"));
+            int escuelaSolicitante =  0;
+            if (solicitud.getUsuario().getAlumno() != null) {
+                escuelaSolicitante = solicitud.getUsuario().getAlumno().getCarrera().getEscuela().getId();
+            } else {
+                escuelaSolicitante = solicitud.getUsuario().getDocente().getEscuela().getId();
+            }
+
             LogSolicitud logSolicitud = new LogSolicitud(
                     "actualizar",
                     solicitud.getId(),
                     solicitud.getEstado(),
                     solicitud.getUsuario().getId(),
+                    solicitud.getTipoSolicitud(),
+                    escuelaSolicitante,
                     idResponsable,
                     solicitud.getFechaActualizacion(),
                     solicitud.getFechaCreacion()
@@ -213,6 +263,14 @@ public class SolicitudController {
         solicitud = solicitudService.save(solicitud);
 
         if (solicitud != null) {
+
+            int escuelaSolicitante =  0;
+            if (solicitud.getUsuario().getAlumno() != null) {
+                escuelaSolicitante = solicitud.getUsuario().getAlumno().getCarrera().getEscuela().getId();
+            } else {
+                escuelaSolicitante = solicitud.getUsuario().getDocente().getEscuela().getId();
+            }
+
             int idResponsable = 0;
             idResponsable = Integer.parseInt(body.get("logResponsable"));
             LogSolicitud logSolicitud = new LogSolicitud(
@@ -220,6 +278,8 @@ public class SolicitudController {
                     solicitud.getId(),
                     solicitud.getEstado(),
                     solicitud.getUsuario().getId(),
+                    solicitud.getTipoSolicitud(),
+                    escuelaSolicitante,
                     idResponsable,
                     solicitud.getFechaActualizacion(),
                     solicitud.getFechaCreacion()

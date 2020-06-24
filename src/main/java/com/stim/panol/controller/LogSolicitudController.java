@@ -21,8 +21,25 @@ public class LogSolicitudController {
     @Autowired
     private LogSolicitudServiceImpl logSolicitudService;
 
+    @GetMapping
+    public ResponseEntity<List<LogSolicitud>> getAllSolicitudes() {
+        return ResponseEntity.ok(logSolicitudService.findAll());
+    }
+
     @GetMapping("/{solicitante}")
     public ResponseEntity<List<LogSolicitud>> getSolicitudesBySolicitante(@PathVariable Integer solicitante) {
         return ResponseEntity.ok(logSolicitudService.findByUsuarioSolicitante(solicitante));
     }
+
+    @GetMapping("/tipoSolicitud/{tipoSolicitud}")
+    public ResponseEntity<List<LogSolicitud>> getSolicitudesByTipoSolicitud(@PathVariable String tipoSolicitud) {
+        return ResponseEntity.ok(logSolicitudService.findByTipoSolicitud(tipoSolicitud));
+    }
+
+    @GetMapping("/escuelaSolicitante/{idEscuelaSolicitante}")
+    public ResponseEntity<List<LogSolicitud>> getSolicitudesByIdEscuelaSolicitante(@PathVariable int idEscuelaSolicitante) {
+        return ResponseEntity.ok(logSolicitudService.findByIdEscuelaSolcitante(idEscuelaSolicitante));
+    }
+
+
 }

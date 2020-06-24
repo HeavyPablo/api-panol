@@ -11,4 +11,6 @@ public interface LogSolicitudService {
     <S extends LogSolicitud> List<S> saveAll(Iterable<S> entities);
     Optional<LogSolicitud> findById(Integer id);
     LogSolicitud save(LogSolicitud logSolicitud);
+    List<LogSolicitud> findByTipoSolicitud(String tipoSolicitud);
+    List<LogSolicitud> findByIdEscuelaSolcitante(int IdEscuelaSolicitante);
 }

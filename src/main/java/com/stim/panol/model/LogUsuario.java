@@ -13,11 +13,17 @@ public class LogUsuario {
     @Column(name = "LOG", length = 255, nullable = false)
     private String log;
 
-    @Column(name = "ID_USUARIO_AFECTADO", nullable = false)
+    @Column(name = "ID_USUARIO", nullable = false)
     private int idUsuario;
 
-    @Column(name = "ID_USUARIO_RESPONSABLE", nullable = false)
+    @Column(name = "ESCUELA_USUARIO", nullable = false)
+    private String escuelaAfectado;
+
+    @Column(name = "ID_RESPONSABLE", nullable = false)
     private int idResponsable;
+
+    @Column(name = "PERFIL", nullable = false)
+    private String perfil;
 
     @Column(name = "FECHA_CREACION_USUARIO", nullable = false)
     private String fechaCreacionUsuario;
@@ -29,10 +35,12 @@ public class LogUsuario {
     public LogUsuario() {
     }
 
-    public LogUsuario(String log, int idUsuario, int idResponsable, String fechaCreacionUsuario, String fechaCambioUsuario) {
+    public LogUsuario(String log, int idUsuario, String escuelaAfectado, int idResponsable, String perfil, String fechaCreacionUsuario, String fechaCambioUsuario) {
         this.log = log;
         this.idUsuario = idUsuario;
+        this.escuelaAfectado = escuelaAfectado;
         this.idResponsable = idResponsable;
+        this.perfil = perfil;
         this.fechaCreacionUsuario = fechaCreacionUsuario;
         this.fechaCambioUsuario = fechaCambioUsuario;
     }
@@ -61,12 +69,28 @@ public class LogUsuario {
         this.idUsuario = idUsuario;
     }
 
+    public String getEscuelaAfectado() {
+        return escuelaAfectado;
+    }
+
+    public void setEscuelaAfectado(String escuelaAfectado) {
+        this.escuelaAfectado = escuelaAfectado;
+    }
+
     public int getIdResponsable() {
         return idResponsable;
     }
 
     public void setIdResponsable(int idResponsable) {
         this.idResponsable = idResponsable;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
     public String getFechaCreacionUsuario() {

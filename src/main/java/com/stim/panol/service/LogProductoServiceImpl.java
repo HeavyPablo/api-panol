@@ -17,7 +17,7 @@ public class LogProductoServiceImpl implements LogProductoService {
 
     @Override
     public List<LogProducto> findAll() {
-        return logProductoRepository.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion"));
+        return logProductoRepository.findAll(Sort.by(Sort.Direction.DESC, "fecha"));
     }
 
     @Override

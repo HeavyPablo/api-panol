@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface LogSolicitudRepository extends JpaRepository<LogSolicitud, Integer> {
     List<LogSolicitud> findByIdUsuarioOrderByFechaCambioSolicitudDesc(Integer idUsuario);
+    List<LogSolicitud> findByTipoSolicitudOrderByFechaCambioSolicitudDesc(String tipoSolicitud);
+    List<LogSolicitud> findByIdEscuelaSolicitanteOrderByFechaCambioSolicitudDesc(Integer idEscuelaSolicitante);
 }

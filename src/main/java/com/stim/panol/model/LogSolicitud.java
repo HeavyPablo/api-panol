@@ -22,6 +22,12 @@ public class LogSolicitud {
     @Column(name = "ID_USUARIO_SOLICITANTE", nullable = false)
     private int idUsuario;
 
+    @Column(name = "TIPO_SOLICITUD", nullable = false)
+    private String tipoSolicitud;
+
+    @Column(name = "ID_ESCUELA_SOLICITANTE", nullable = false)
+    private int idEscuelaSolicitante;
+
     @Column(name = "ID_USUARIO_RESPONSABLE")
     private int idResponsable;
 
@@ -35,17 +41,20 @@ public class LogSolicitud {
     public LogSolicitud() {
     }
 
-    public LogSolicitud(String log, int idSolicitud, String estadoSolicitud, int idUsuario, int idResponsable, String fechaCambioSolicitud, String fechaCreacionSolicitud) {
+    public LogSolicitud(String log, int idSolicitud, String estadoSolicitud, int idUsuario, String tipoSolicitud, int idEscuelaSolicitante, int idResponsable, String fechaCambioSolicitud, String fechaCreacionSolicitud) {
         this.log = log;
         this.idSolicitud = idSolicitud;
         this.estadoSolicitud = estadoSolicitud;
         this.idUsuario = idUsuario;
+        this.tipoSolicitud = tipoSolicitud;
+        this.idEscuelaSolicitante = idEscuelaSolicitante;
         this.idResponsable = idResponsable;
         this.fechaCambioSolicitud = fechaCambioSolicitud;
         this.fechaCreacionSolicitud = fechaCreacionSolicitud;
     }
 
     // Getters & Setters
+
     public int getId() {
         return id;
     }
@@ -84,6 +93,22 @@ public class LogSolicitud {
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getTipoSolicitud() {
+        return tipoSolicitud;
+    }
+
+    public void setTipoSolicitud(String tipoSolicitud) {
+        this.tipoSolicitud = tipoSolicitud;
+    }
+
+    public int getIdEscuelaSolicitante() {
+        return idEscuelaSolicitante;
+    }
+
+    public void setIdEscuelaSolicitante(int idEscuelaSolicitante) {
+        this.idEscuelaSolicitante = idEscuelaSolicitante;
     }
 
     public int getIdResponsable() {
