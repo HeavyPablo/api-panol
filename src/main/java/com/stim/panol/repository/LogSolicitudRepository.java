@@ -11,4 +11,5 @@ public interface LogSolicitudRepository extends JpaRepository<LogSolicitud, Inte
     List<LogSolicitud> findByIdUsuarioOrderByFechaCambioSolicitudDesc(Integer idUsuario);
     List<LogSolicitud> findByTipoSolicitudOrderByFechaCambioSolicitudDesc(String tipoSolicitud);
     List<LogSolicitud> findByIdEscuelaSolicitanteOrderByFechaCambioSolicitudDesc(Integer idEscuelaSolicitante);
+    List<LogSolicitud> findByLogOrderByFechaCambioSolicitudDesc(String log);
 }

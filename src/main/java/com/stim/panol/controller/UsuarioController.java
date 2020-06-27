@@ -407,28 +407,25 @@ public class UsuarioController {
                 newUsuario.setFechaActualizacion(dateFormat.format(date));
                 // Crear datos de perfil
 
-                            Alumno newAlumno = new Alumno();
-                                    newAlumno.setRut(row.getCell(0).getStringCellValue());
-                                    newAlumno.setApellidoPaterno(row.getCell(1).getStringCellValue());
-                                    newAlumno.setApellidoMaterno(row.getCell(2).getStringCellValue());
-                                    newAlumno.setNombre(row.getCell(3).getStringCellValue());
-                                    newAlumno.setTelefono(row.getCell(5).getStringCellValue());
-                                    newAlumno.setCorreoAlumno(row.getCell(6).getStringCellValue());
-                                    newAlumno.setFechaActualizacion(dateFormat.format(date));
-                                    newAlumno.setFechaCreacion(dateFormat.format(date));
-                                    Integer id = (int) row.getCell(4).getNumericCellValue();
-                                    newAlumno.setCarrera(carreraService.findById(id).get());
-                                    //carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
+                Alumno newAlumno = new Alumno();
+                newAlumno.setRut(row.getCell(0).getStringCellValue());
+                newAlumno.setApellidoPaterno(row.getCell(1).getStringCellValue());
+                newAlumno.setApellidoMaterno(row.getCell(2).getStringCellValue());
+                newAlumno.setNombre(row.getCell(3).getStringCellValue());
+                newAlumno.setTelefono(row.getCell(5).getStringCellValue());
+                newAlumno.setCorreoAlumno(row.getCell(6).getStringCellValue());
+                newAlumno.setFechaActualizacion(dateFormat.format(date));
+                newAlumno.setFechaCreacion(dateFormat.format(date));
+                Integer id = (int) row.getCell(4).getNumericCellValue();
+                newAlumno.setCarrera(carreraService.findById(id).get());
+                //carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
 
-                            newAlumno = alumnoService.save(newAlumno);
-                            newUsuario.setAlumno(newAlumno);
+                newAlumno = alumnoService.save(newAlumno);
+                newUsuario.setAlumno(newAlumno);
 
-                    usuarios.add(newUsuario);
-                }
-
-
+                usuarios.add(newUsuario);
+            }
         }
-
         return ResponseEntity.ok(usuarioRepository.saveAll(usuarios));
     }
 }

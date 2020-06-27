@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface LogProductoRepository extends JpaRepository<LogProducto, Integer> {
-    List<LogProducto> findByEstadoSolicitudOrderByFechaDesc(String estado);
+    List<LogProducto> findByEstadoOrderByFechaDesc(String estado);
+    List<LogProducto> findByOperacionOrderByFechaDesc(String operacion);
 }

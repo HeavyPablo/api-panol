@@ -10,4 +10,6 @@ public interface LogProductoService {
     <S extends LogProducto> List<S> saveAll(Iterable<S> entities);
     Optional<LogProducto> findById(Integer id);
     LogProducto save(LogProducto logProducto);
+    List<LogProducto> findByEstado(String estado);
+    List<LogProducto> findByOperacion(String operacion);
 }

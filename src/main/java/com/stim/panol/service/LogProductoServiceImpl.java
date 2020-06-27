@@ -34,4 +34,14 @@ public class LogProductoServiceImpl implements LogProductoService {
     public LogProducto save(LogProducto logProducto) {
         return logProductoRepository.save(logProducto);
     }
+
+    @Override
+    public List<LogProducto> findByEstado(String estado) {
+        return logProductoRepository.findByEstadoOrderByFechaDesc(estado);
+    }
+
+    @Override
+    public List<LogProducto> findByOperacion(String operacion) {
+        return logProductoRepository.findByOperacionOrderByFechaDesc(operacion);
+    }
 }

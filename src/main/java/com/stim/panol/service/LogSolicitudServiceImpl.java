@@ -50,4 +50,9 @@ public class LogSolicitudServiceImpl implements LogSolicitudService{
     public List<LogSolicitud> findByIdEscuelaSolcitante(int idEscuelaSolicitante) {
         return logSolicitudRepository.findByIdEscuelaSolicitanteOrderByFechaCambioSolicitudDesc(idEscuelaSolicitante);
     }
+
+    @Override
+    public List<LogSolicitud> findByLog(String log) {
+        return logSolicitudRepository.findByLogOrderByFechaCambioSolicitudDesc(log);
+    }
 }

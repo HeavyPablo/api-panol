@@ -41,5 +41,8 @@ public class LogSolicitudController {
         return ResponseEntity.ok(logSolicitudService.findByIdEscuelaSolcitante(idEscuelaSolicitante));
     }
 
-
+    @GetMapping("/log/{log}")
+    public ResponseEntity<List<LogSolicitud>> getSolicitudesByLog(@PathVariable String log) {
+        return ResponseEntity.ok(logSolicitudService.findByLog(log));
+    }
 }

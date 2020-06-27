@@ -13,4 +13,5 @@ public interface LogSolicitudService {
     LogSolicitud save(LogSolicitud logSolicitud);
     List<LogSolicitud> findByTipoSolicitud(String tipoSolicitud);
     List<LogSolicitud> findByIdEscuelaSolcitante(int IdEscuelaSolicitante);
+    List<LogSolicitud> findByLog(String log);
 }
