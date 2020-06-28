@@ -44,6 +44,8 @@ public class UsuarioController {
     private EscuelaServiceImpl escuelaService;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private LogUsuarioServiceImpl logUsuarioService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -64,6 +66,8 @@ public class UsuarioController {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         boolean valid = false;
+
+        String escuelaAfectado = "";
 
         Usuario newUsuario = new Usuario(
                 body.get("username"),
@@ -90,6 +94,7 @@ public class UsuarioController {
                             dateFormat.format(date),
                             carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
                     );
+                    escuelaAfectado = newAlumno.getCarrera().getEscuela().getNombre();
                     newAlumno = alumnoService.save(newAlumno);
                     newUsuario.setAlumno(newAlumno);
                     valid = true;
@@ -110,6 +115,7 @@ public class UsuarioController {
                             dateFormat.format(date),
                             escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
                     );
+                    escuelaAfectado = newDocente.getEscuela().getNombre();
                     newDocente = docenteService.save(newDocente);
                     newUsuario.setDocente(newDocente);
                     valid = true;
@@ -129,6 +135,7 @@ public class UsuarioController {
                             dateFormat.format(date),
                             escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
                     );
+                    escuelaAfectado = newCoordinador.getEscuela().getNombre();
                     newCoordinador = coordinadorService.save(newCoordinador);
                     newUsuario.setCoordinador(newCoordinador);
                     valid = true;
@@ -148,6 +155,7 @@ public class UsuarioController {
                             dateFormat.format(date),
                             escuelaService.findById(Integer.parseInt(body.get("escuela"))).get()
                     );
+                    escuelaAfectado = newDirector.getEscuela().getNombre();
                     newDirector = directorService.save(newDirector);
                     newUsuario.setDirector(newDirector);
                     valid = true;
@@ -177,7 +185,21 @@ public class UsuarioController {
         if (!valid) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(usuarioRepository.save(newUsuario));
+
+        newUsuario = usuarioRepository.save(newUsuario);
+
+        LogUsuario logUsuario = new LogUsuario(
+                "crear",
+                newUsuario.getId(),
+                escuelaAfectado,
+                Integer.parseInt(body.get("logResponsable")),
+                newUsuario.getPerfil(),
+                "activo",
+                newUsuario.getFechaCreacion(),
+                newUsuario.getFechaActualizacion()
+        );
+        logUsuarioService.save(logUsuario);
+        return ResponseEntity.ok(newUsuario);
     }
 
     @PostMapping("/usuario/saveAll")
@@ -314,19 +336,11 @@ public class UsuarioController {
 
     @GetMapping("usuario/perfil/{perfil}")
     public ResponseEntity<List<Usuario>> getUsuarioPerfil(@PathVariable String perfil) {
-        if (usuarioRepository.findByPerfil(perfil.toUpperCase()) == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
         return ResponseEntity.ok(usuarioRepository.findByPerfil(perfil.toUpperCase()));
     }
 
     @GetMapping("usuario/estado/{estado}")
     public ResponseEntity<List<Usuario>> getUsuarioEstado(@PathVariable String estado) {
-        if (usuarioRepository.findByEstado(estado).isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
         return ResponseEntity.ok(usuarioRepository.findByEstado(estado.toLowerCase()));
     }
 
@@ -340,14 +354,39 @@ public class UsuarioController {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+        String escuelaAfectado = "";
+
         Usuario usuario = usuarioRepository.findByUsername(username.toLowerCase()).get();
         //usuario.setPassword(bCryptPasswordEncoder.encode(body.get("password")));
         usuario.setFechaActualizacion(dateFormat.format(date));
-        usuario.setPerfil(body.get("perfil"));
-        usuario.setUsername(body.get("username"));
-        usuario.setEstado(body.get("estado"));
+        if (body.containsKey("perfil")) { usuario.setPerfil(body.get("perfil")); }
+        if (body.containsKey("username")) { usuario.setUsername(body.get("username")); }
+        if (body.containsKey("estado")) { usuario.setEstado(body.get("estado")); }
 
+        if (usuario.getAlumno() != null) {
+            escuelaAfectado = usuario.getAlumno().getCarrera().getEscuela().getNombre();
+        }
+        if (usuario.getDocente() != null) {
+            escuelaAfectado = usuario.getDocente().getEscuela().getNombre();
+        }
+        if (usuario.getDirector() != null) {
+            escuelaAfectado = usuario.getDirector().getEscuela().getNombre();
+        }
+        if (usuario.getCoordinador() != null) {
+            escuelaAfectado = usuario.getCoordinador().getEscuela().getNombre();
+        }
 
+        LogUsuario logUsuario = new LogUsuario(
+                "crear",
+                usuario.getId(),
+                escuelaAfectado,
+                Integer.parseInt(body.get("logResponsable")),
+                usuario.getPerfil(),
+                usuario.getEstado(),
+                usuario.getFechaCreacion(),
+                usuario.getFechaActualizacion()
+        );
+        logUsuarioService.save(logUsuario);
         
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
@@ -422,6 +461,18 @@ public class UsuarioController {
 
                 newAlumno = alumnoService.save(newAlumno);
                 newUsuario.setAlumno(newAlumno);
+
+                LogUsuario logUsuario = new LogUsuario(
+                        "crear",
+                        newUsuario.getId(),
+                        newUsuario.getAlumno().getCarrera().getEscuela().getNombre(),
+                        0,
+                        newUsuario.getPerfil(),
+                        "activo",
+                        newUsuario.getFechaCreacion(),
+                        newUsuario.getFechaActualizacion()
+                );
+                logUsuarioService.save(logUsuario);
 
                 usuarios.add(newUsuario);
             }

@@ -25,6 +25,9 @@ public class LogUsuario {
     @Column(name = "PERFIL", nullable = false)
     private String perfil;
 
+    @Column(name = "ESTADO", nullable = false)
+    private String estado;
+
     @Column(name = "FECHA_CREACION_USUARIO", nullable = false)
     private String fechaCreacionUsuario;
 
@@ -35,12 +38,13 @@ public class LogUsuario {
     public LogUsuario() {
     }
 
-    public LogUsuario(String log, int idUsuario, String escuelaAfectado, int idResponsable, String perfil, String fechaCreacionUsuario, String fechaCambioUsuario) {
+    public LogUsuario(String log, int idUsuario, String escuelaAfectado, int idResponsable, String perfil, String estado, String fechaCreacionUsuario, String fechaCambioUsuario) {
         this.log = log;
         this.idUsuario = idUsuario;
         this.escuelaAfectado = escuelaAfectado;
         this.idResponsable = idResponsable;
         this.perfil = perfil;
+        this.estado = estado;
         this.fechaCreacionUsuario = fechaCreacionUsuario;
         this.fechaCambioUsuario = fechaCambioUsuario;
     }
@@ -91,6 +95,14 @@ public class LogUsuario {
 
     public void setPerfil(String perfil) {
         this.perfil = perfil;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getFechaCreacionUsuario() {
