@@ -37,6 +37,10 @@ public class SolicitudController {
     @Autowired
     private LogProductoServiceImpl logProductoService;
 
+    @Autowired
+    private EmailServiceImpl emailService;
+
+
     @GetMapping
     public ResponseEntity<List<Solicitud>> getSolicitud() {
         return ResponseEntity.ok(solicitudService.findAll());
@@ -265,10 +269,13 @@ public class SolicitudController {
         if (solicitud != null) {
 
             int escuelaSolicitante =  0;
+            String emailReceiver = "";
             if (solicitud.getUsuario().getAlumno() != null) {
                 escuelaSolicitante = solicitud.getUsuario().getAlumno().getCarrera().getEscuela().getId();
+                emailReceiver = solicitud.getUsuario().getAlumno().getCorreoAlumno();
             } else {
                 escuelaSolicitante = solicitud.getUsuario().getDocente().getEscuela().getId();
+                emailReceiver = solicitud.getUsuario().getDocente().getCorreoDocente();
             }
 
             int idResponsable = 0;
@@ -286,6 +293,9 @@ public class SolicitudController {
             );
 
             logSolicitudService.save(logSolicitud);
+
+            emailService.upEmailCancelSolicitud(emailReceiver, String.valueOf(solicitud.getId()));
+
             return ResponseEntity.ok(solicitud);
         }
 
