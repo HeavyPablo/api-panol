@@ -1,6 +1,7 @@
 package com.stim.panol.controller;
 
 import com.stim.panol.model.*;
+import com.stim.panol.repository.AlarmaStockRepository;
 import com.stim.panol.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,13 @@ public class ProductoController {
 
     @Autowired
     private LogProductoServiceImpl logProductoService;
+
+    @Autowired
+    private AlarmaStockRepository alarmaStockRepository;
+    @Autowired
+    private AlarmaStockService alarmaStockService;
+    @Autowired
+    private AlarmaStockServiceImpl alarmaStockServiceImpl;
 
     @GetMapping
     public ResponseEntity<List<Producto>> getProducto() {
@@ -84,6 +92,19 @@ public class ProductoController {
             );
 
             logProductoService.save(logProducto);
+
+            //agrega el stock, inicial
+            AlarmaStock actualizarStock = alarmaStockService.findByIdEscuelaSAAndIdProductoSA(producto.getEscuela().getId(),producto.getSubcategoria().getId()).get();
+
+            actualizarStock.setActualizacionSA(dateFormat.format(date));
+            int stockAnterior = actualizarStock.getStock();
+            int StockActual = stockAnterior + 1;
+
+            int stockAnteriorTotal = actualizarStock.getStockTotal();
+            int StockActualTotal = stockAnteriorTotal + 1;
+            actualizarStock.setStock(StockActual);
+            actualizarStock.setStockTotal(StockActualTotal);
+            alarmaStockService.save(actualizarStock);
             return ResponseEntity.ok(producto);
         }
 
@@ -280,6 +301,21 @@ public class ProductoController {
                     dateFormat.format(date)
             );
             logProductoService.save(logProducto);
+
+            //borrar del stock
+            AlarmaStock actualizarStock = alarmaStockService.findByIdEscuelaSAAndIdProductoSA(producto.getEscuela().getId(),producto.getSubcategoria().getId()).get();
+
+
+            int stockAnterior = actualizarStock.getStock();
+            int StockActual = stockAnterior - 1;
+
+            int stockAnteriorTotal = actualizarStock.getStockTotal();
+            int StockActualTotal = stockAnteriorTotal - 1;
+            actualizarStock.setStock(StockActual);
+            actualizarStock.setStockTotal(StockActualTotal);
+            alarmaStockService.save(actualizarStock);
+
+
             return ResponseEntity.ok(producto);
         }
 
