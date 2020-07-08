@@ -1,7 +1,6 @@
 package com.stim.panol.controller;
 
 import com.stim.panol.model.*;
-import com.stim.panol.repository.AlarmaStockRepository;
 import com.stim.panol.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +40,6 @@ public class SolicitudController {
     @Autowired
     private EmailServiceImpl emailService;
 
-    @Autowired
-    private AlarmaStockRepository alarmaStockRepository;
-    @Autowired
-    private AlarmaStockService alarmaStockService;
-    @Autowired
-    private AlarmaStockServiceImpl alarmaStockServiceImpl;
 
     @GetMapping
     public ResponseEntity<List<Solicitud>> getSolicitud() {
@@ -193,17 +186,6 @@ public class SolicitudController {
                     );
 
                     logProductoService.save(logProducto);
-
-                    //descuenta un stock por estar en uso
-                    AlarmaStock actualizarStock = alarmaStockService.findByIdEscuelaSAAndIdProductoSA(producto.getEscuela().getId(),producto.getSubcategoria().getId()).get();
-
-                    actualizarStock.setActualizacionSA(dateFormat.format(date));
-                    int stockAnterior = actualizarStock.getStock();
-                    int StockActual = stockAnterior - 1;
-
-
-                    actualizarStock.setStock(StockActual);
-                    alarmaStockService.save(actualizarStock);
                 }
                 solicitud.setProductos(productos);
             }
@@ -224,17 +206,6 @@ public class SolicitudController {
                     );
 
                     logProductoService.save(logProducto);
-
-                    AlarmaStock actualizarStock = alarmaStockService.findByIdEscuelaSAAndIdProductoSA(producto.getEscuela().getId(),producto.getSubcategoria().getId()).get();
-
-                    actualizarStock.setActualizacionSA(dateFormat.format(date));
-                    int stockAnterior = actualizarStock.getStock();
-                    int StockActual = stockAnterior + 1;
-
-
-                    actualizarStock.setStock(StockActual);
-                    alarmaStockService.save(actualizarStock);
-
                 }
                 solicitud.setProductos(productos);
             }

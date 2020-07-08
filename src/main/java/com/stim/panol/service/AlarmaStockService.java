@@ -10,5 +10,5 @@ public interface AlarmaStockService {
     <S extends AlarmaStock> List<S> saveAll(Iterable<S> entities);
     Optional<AlarmaStock> findById(Integer id);
     AlarmaStock save(AlarmaStock alarmaStock);
-    Optional<AlarmaStock> findByIdEscuelaSAAndIdProductoSA(int idEscuelaSA, int idProductoSA);
+
 }

@@ -10,62 +10,26 @@ public class AlarmaStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "SUBPRODUCTO_AS", nullable = false)
+    @Column(name = "SUBPRODUCTO_SA", nullable = false)
     private String subproductoAS;
 
-    @Column(name = "ESCUELA_AS", nullable = false)
+    @Column(name = "ESCUELA_SA", nullable = false)
     private String escuelaSA;
 
-    @Column(name = "ACTUALIZACION_AS", nullable = false)
+    @Column(name = "ACTUALIZACION_SA", nullable = false)
     private String actualizacionSA;
 
     @Column(name = "STOCK", nullable = false)
     private int stock;
 
-    @Column(name = "ID_ESCUELA_AS", nullable = false)
-    private int idEscuelaSA;
-
-    @Column(name = "ID_PRODUCTO_AS", nullable = false)
-    private int idProductoSA;
-
-    @Column(name = "STOCK_TOTAL", nullable = false)
-    private int stockTotal;
-
     public AlarmaStock() {
     }
 
-    public AlarmaStock(String subproductoAS, String escuelaSA, String actualizacionSA, int stock, int idEscuelaSA, int idProductoSA, int stockTotal) {
+    public AlarmaStock(String subproductoAS, String escuelaSA, String actualizacionSA, int stock) {
         this.subproductoAS = subproductoAS;
         this.escuelaSA = escuelaSA;
         this.actualizacionSA = actualizacionSA;
         this.stock = stock;
-        this.idEscuelaSA = idEscuelaSA;
-        this.idProductoSA = idProductoSA;
-        this.stockTotal = stockTotal;
-    }
-
-    public int getStockTotal() {
-        return stockTotal;
-    }
-
-    public void setStockTotal(int stockTotal) {
-        this.stockTotal = stockTotal;
-    }
-
-    public int getIdEscuelaSA() {
-        return idEscuelaSA;
-    }
-
-    public void setIdEscuelaSA(int idEscuelaSA) {
-        this.idEscuelaSA = idEscuelaSA;
-    }
-
-    public int getIdProductoSA() {
-        return idProductoSA;
-    }
-
-    public void setIdProductoSA(int idProductoSA) {
-        this.idProductoSA = idProductoSA;
     }
 
     public int getId() {

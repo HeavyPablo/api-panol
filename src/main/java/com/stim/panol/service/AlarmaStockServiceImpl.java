@@ -40,9 +40,5 @@ public class AlarmaStockServiceImpl implements AlarmaStockService {
         return alarmaStockRepository.save(alarmaStock);
     }
 
-    @Override
-    public Optional<AlarmaStock> findByIdEscuelaSAAndIdProductoSA(int idEscuelaSA, int idProductoSA){
-        return alarmaStockRepository.findByIdEscuelaSAAndIdProductoSA(idEscuelaSA, idProductoSA);
-    }
 
 }
