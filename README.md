@@ -72,6 +72,7 @@ localhost:8080/usuario?rut={rut}        //GetByRut
 localhost:8080/usuario/perfil/{perfil}  //GetUsuarioPerfil
 localhost:8080/usuario/estado/{estado}  //GetUsuarioEstado
 ...
+http://localhost:8080/alarm           // PostAgregarAlarmaStock 
 ```
 
 ### Body para crear y/o editar (en construccion..)
@@ -293,3 +294,19 @@ Para solicitar un producto, la solicitud debe ser enviada con el estado `entrega
 Solo con esto basta para que se busquen los productos y queden en estado de `enuso` del stock total. 
 
 Por otro lado, si se envia la solicitud con estado `completada` con sus respectivos productos, entonces el `ESTADO` del producto volverá a ser `disponible`.
+
+## Agregar la AlarmaStock para el uso de Notificaciones##
+
+En un JSON:
+```
+{
+    "subproductoAS": "Lapices y Plumones",
+    "escuelaSA": "Escuela de Informática y Telecomunicaciones",
+    "actualizacionSA": "2020-07-07 03:14:05",
+    "stock": 0,
+    "idEscuelaSA": 2,
+    "idProductoSA": 8,     -----> aqui va el Id de la subcateria de la que pertenece, no la del producto.
+    "stockTotal": 0
+
+}
+```
