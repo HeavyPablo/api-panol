@@ -46,6 +46,8 @@ public class UsuarioController {
     private UsuarioService usuarioService;
     @Autowired
     private LogUsuarioServiceImpl logUsuarioService;
+    @Autowired
+    private EmailServiceImpl emailService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -355,6 +357,7 @@ public class UsuarioController {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String escuelaAfectado = "";
+        String receiver = "";
 
         Usuario usuario = usuarioRepository.findByUsername(username.toLowerCase()).get();
         //usuario.setPassword(bCryptPasswordEncoder.encode(body.get("password")));
@@ -365,9 +368,11 @@ public class UsuarioController {
 
         if (usuario.getAlumno() != null) {
             escuelaAfectado = usuario.getAlumno().getCarrera().getEscuela().getNombre();
+            receiver = usuario.getAlumno().getCorreoAlumno();
         }
         if (usuario.getDocente() != null) {
             escuelaAfectado = usuario.getDocente().getEscuela().getNombre();
+            receiver = usuario.getDocente().getCorreoDocente();
         }
         if (usuario.getDirector() != null) {
             escuelaAfectado = usuario.getDirector().getEscuela().getNombre();
@@ -387,6 +392,10 @@ public class UsuarioController {
                 usuario.getFechaActualizacion()
         );
         logUsuarioService.save(logUsuario);
+
+        if (usuario.getEstado().equals("moroso")) {
+            emailService.upEmailUsuarioMoroso(receiver);
+        }
         
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }

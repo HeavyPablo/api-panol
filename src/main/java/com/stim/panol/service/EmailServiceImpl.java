@@ -54,4 +54,35 @@ public class EmailServiceImpl implements EmailService {
 
         sendEmailTools(message, receiver, subject);
     }
+
+    public void upEmailUsuarioMoroso(String receiver) {
+
+        String subject = "DuocUC Pañol - Notificación de morosidad";
+
+        String message = "Has quedado moroso por la no devolución de los materiales solicitados" +
+                ". Usted ha sido sancionado hasta que devuelva los materiales solicitados.";
+
+        sendEmailTools(message, receiver, subject);
+    }
+
+    public void upEmailDevolucionUsuarioMoroso(String receiver, String idSolicitud) {
+
+        String subject = "DuocUC Pañol - Notificación de devolución";
+
+        String message = "Has devuelto los materiales de la solicitud " + idSolicitud +
+                ". Su estado permanecerá sancionado por incumplimiento de fechas." +
+                "No podrá solicitar materiales hasta dentro de 5 dias.";
+
+        sendEmailTools(message, receiver, subject);
+    }
+
+    public void upEmailDevolucion(String receiver, String idSolicitud) {
+
+        String subject = "DuocUC Pañol - Notificación de devolución";
+
+        String message = "Has devuelto los materiales de la solicitud " + idSolicitud + " satisfactoriamente." +
+                "Gracias por usar los servicios de pañol. Buen día :)";
+
+        sendEmailTools(message, receiver, subject);
+    }
 }

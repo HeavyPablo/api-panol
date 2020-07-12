@@ -161,6 +161,7 @@ public class SolicitudController {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Solicitud solicitud = solicitudService.findById(id).get();
+        String receiver = "";
 
         int idResponsable = 0;
         idResponsable = Integer.parseInt(body.get("solicitud").get(0).get("logResponsable"));
@@ -254,8 +255,10 @@ public class SolicitudController {
             int escuelaSolicitante =  0;
             if (solicitud.getUsuario().getAlumno() != null) {
                 escuelaSolicitante = solicitud.getUsuario().getAlumno().getCarrera().getEscuela().getId();
+                receiver = solicitud.getUsuario().getAlumno().getCorreoAlumno();
             } else {
                 escuelaSolicitante = solicitud.getUsuario().getDocente().getEscuela().getId();
+                receiver = solicitud.getUsuario().getDocente().getCorreoDocente();
             }
 
             LogSolicitud logSolicitud = new LogSolicitud(
@@ -271,6 +274,13 @@ public class SolicitudController {
             );
 
             logSolicitudService.save(logSolicitud);
+
+            if (solicitud.getUsuario().getEstado() != "moroso") {
+                emailService.upEmailDevolucion(receiver, String.valueOf(solicitud.getId()));
+            } else {
+                emailService.upEmailDevolucionUsuarioMoroso(receiver, String.valueOf(solicitud.getId()));
+            }
+
             return ResponseEntity.ok(solicitud);
         }
 
