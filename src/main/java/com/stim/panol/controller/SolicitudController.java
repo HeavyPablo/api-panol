@@ -275,10 +275,12 @@ public class SolicitudController {
 
             logSolicitudService.save(logSolicitud);
 
-            if (solicitud.getUsuario().getEstado() != "moroso") {
-                emailService.upEmailDevolucion(receiver, String.valueOf(solicitud.getId()));
-            } else {
-                emailService.upEmailDevolucionUsuarioMoroso(receiver, String.valueOf(solicitud.getId()));
+            if (solicitud.getEstado().equals("completada")) {
+                if (!solicitud.getUsuario().getEstado().equals("moroso")) {
+                    emailService.upEmailDevolucion(receiver, String.valueOf(solicitud.getId()));
+                } else {
+                    emailService.upEmailDevolucionUsuarioMoroso(receiver, String.valueOf(solicitud.getId()));
+                }
             }
 
             return ResponseEntity.ok(solicitud);
