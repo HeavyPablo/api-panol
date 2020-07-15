@@ -1,8 +1,7 @@
 package com.stim.panol.service;
-import com.stim.panol.model.RegBloqueo;
 import com.stim.panol.model.RegDebaja;
-import com.stim.panol.repository.RegBloqueoRepository;
 import com.stim.panol.repository.RegDebajaRepository;
+import com.stim.panol.service.iservice.RegDebajaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

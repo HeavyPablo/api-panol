@@ -1,8 +1,8 @@
 package com.stim.panol.service;
 
 import com.stim.panol.model.LogSolicitud;
-import com.stim.panol.model.Solicitud;
 import com.stim.panol.repository.LogSolicitudRepository;
+import com.stim.panol.service.iservice.LogSolicitudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class LogSolicitudServiceImpl implements LogSolicitudService{
+public class LogSolicitudServiceImpl implements LogSolicitudService {
 
     @Autowired
     private LogSolicitudRepository logSolicitudRepository;

@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.Categoria;
 import com.stim.panol.repository.CategoriaRepository;
+import com.stim.panol.service.iservice.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

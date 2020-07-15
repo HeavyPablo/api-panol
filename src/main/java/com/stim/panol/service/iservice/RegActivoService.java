@@ -1,4 +1,4 @@
-package com.stim.panol.service;
+package com.stim.panol.service.iservice;
 import com.stim.panol.model.RegActivo;
 import java.util.List;
 import java.util.Optional;

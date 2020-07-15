@@ -3,6 +3,7 @@ package com.stim.panol.controller;
 import com.stim.panol.model.*;
 import com.stim.panol.repository.UsuarioRepository;
 import com.stim.panol.service.*;
+import com.stim.panol.service.iservice.UsuarioService;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -48,6 +49,8 @@ public class UsuarioController {
     private LogUsuarioServiceImpl logUsuarioService;
     @Autowired
     private EmailServiceImpl emailService;
+    @Autowired
+    private NotificacionUsuarioServiceImpl notificacionUsuarioService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -395,12 +398,13 @@ public class UsuarioController {
 
         if (usuario.getEstado().equals("moroso")) {
             emailService.upEmailUsuarioMoroso(receiver);
+            notificacionUsuarioService.getNotificacionMorosoUsuario(usuario);
         }
         
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
 
-    // Actualizar usuario segun el estado
+    // ---!!!!! En desuso !!!!!!!------
     @PostMapping("/usuario/ActEst/{username}")
     public ResponseEntity<Usuario> postActualizarEstado(@Valid @RequestBody @NotNull Map<String, String> body, @PathVariable String username) {
         if (!usuarioRepository.findByUsername(username).isPresent()) {
@@ -447,14 +451,14 @@ public class UsuarioController {
                 //recordar implementar una contraseña dinamica para el usuario.
 
                 Usuario newUsuario = new Usuario();
-                newUsuario.setUsername(row.getCell(0).getStringCellValue());
+
                 newUsuario.setPassword(bCryptPasswordEncoder.encode("1234"));
                 newUsuario.setPerfil("ALUMNO");
                 newUsuario.setEstado("activo");
                 newUsuario.setFechaCreacion(dateFormat.format(date));
                 newUsuario.setFechaActualizacion(dateFormat.format(date));
-                // Crear datos de perfil
 
+                // Crear datos de perfil
                 Alumno newAlumno = new Alumno();
                 newAlumno.setRut(row.getCell(0).getStringCellValue());
                 newAlumno.setApellidoPaterno(row.getCell(1).getStringCellValue());
@@ -467,8 +471,9 @@ public class UsuarioController {
                 Integer id = (int) row.getCell(4).getNumericCellValue();
                 newAlumno.setCarrera(carreraService.findById(id).get());
                 //carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
-
                 newAlumno = alumnoService.save(newAlumno);
+
+                newUsuario.setUsername(newAlumno.getRut());
                 newUsuario.setAlumno(newAlumno);
 
                 LogUsuario logUsuario = new LogUsuario(

@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.Producto;
 import com.stim.panol.repository.ProductoRepository;
+import com.stim.panol.service.iservice.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductoServiceImpl implements ProductoService{
+public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;

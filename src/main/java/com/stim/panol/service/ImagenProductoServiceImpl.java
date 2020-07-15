@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.ImagenProducto;
 import com.stim.panol.repository.ImagenProductoRepository;
+import com.stim.panol.service.iservice.ImagenProductoService;
 import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,13 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class ImagenProductoServiceImpl implements ImagenProductoService{
+public class ImagenProductoServiceImpl implements ImagenProductoService {
 
     @Autowired
     private ImagenProductoRepository imagenProductoRepository;

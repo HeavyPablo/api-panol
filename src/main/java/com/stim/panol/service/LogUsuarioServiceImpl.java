@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.LogUsuario;
 import com.stim.panol.repository.LogUsuarioRepository;
+import com.stim.panol.service.iservice.LogUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class LogUsuarioServiceImpl implements LogUsuarioService{
+public class LogUsuarioServiceImpl implements LogUsuarioService {
 
     @Autowired
     private LogUsuarioRepository logUsuarioRepository;

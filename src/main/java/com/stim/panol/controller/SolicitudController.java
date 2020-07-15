@@ -3,6 +3,7 @@ package com.stim.panol.controller;
 import com.stim.panol.model.*;
 import com.stim.panol.repository.AlarmaStockRepository;
 import com.stim.panol.service.*;
+import com.stim.panol.service.iservice.AlarmaStockService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,31 +23,26 @@ public class SolicitudController {
 
     @Autowired
     private SolicitudServiceImpl solicitudService;
-
     @Autowired
     private UsuarioServiceImpl usuarioService;
-
     @Autowired
     private PanoleroServiceImpl panoleroService;
-
     @Autowired
     private ProductoServiceImpl productoService;
-
     @Autowired
     private LogSolicitudServiceImpl logSolicitudService;
-
     @Autowired
     private LogProductoServiceImpl logProductoService;
-
     @Autowired
     private EmailServiceImpl emailService;
-
     @Autowired
     private AlarmaStockRepository alarmaStockRepository;
     @Autowired
     private AlarmaStockService alarmaStockService;
     @Autowired
     private AlarmaStockServiceImpl alarmaStockServiceImpl;
+    @Autowired
+    private NotificacionUsuarioServiceImpl notificacionUsuarioService;
 
     @GetMapping
     public ResponseEntity<List<Solicitud>> getSolicitud() {
@@ -103,8 +99,6 @@ public class SolicitudController {
 
         solicitud = solicitudService.save(solicitud);
 
-
-
         if (solicitud != null) {
 
             int escuelaSolicitante =  0;
@@ -130,6 +124,8 @@ public class SolicitudController {
             );
 
             logSolicitudService.save(logSolicitud);
+            notificacionUsuarioService.getNotificacionCrearSolicitud(solicitud.getUsuario(), solicitud.getId());
+
             return ResponseEntity.ok(solicitud);
         }
 
@@ -232,7 +228,6 @@ public class SolicitudController {
                     int stockAnterior = actualizarStock.getStock();
                     int StockActual = stockAnterior + 1;
 
-
                     actualizarStock.setStock(StockActual);
                     alarmaStockService.save(actualizarStock);
 
@@ -275,12 +270,20 @@ public class SolicitudController {
 
             logSolicitudService.save(logSolicitud);
 
+            // enviar email y notificar en Angular
             if (solicitud.getEstado().equals("completada")) {
                 if (!solicitud.getUsuario().getEstado().equals("moroso")) {
                     emailService.upEmailDevolucion(receiver, String.valueOf(solicitud.getId()));
                 } else {
                     emailService.upEmailDevolucionUsuarioMoroso(receiver, String.valueOf(solicitud.getId()));
                 }
+                notificacionUsuarioService.getNotificacionDevolverSolicitud(solicitud.getUsuario(), solicitud.getId());
+            }
+            if (solicitud.getEstado().equals("pendiente")) {
+                notificacionUsuarioService.getNotificacionValidarSolicitud(solicitud.getUsuario(), solicitud.getId());
+            }
+            if (solicitud.getEstado().equals("entregada")) {
+                notificacionUsuarioService.getNotificacionRecibirSolicitud(solicitud.getUsuario(), solicitud.getId());
             }
 
             return ResponseEntity.ok(solicitud);
@@ -336,6 +339,7 @@ public class SolicitudController {
             logSolicitudService.save(logSolicitud);
 
             emailService.upEmailCancelSolicitud(emailReceiver, String.valueOf(solicitud.getId()));
+            notificacionUsuarioService.getNotificacionDeshabilitarSolicitud(solicitud.getUsuario(), solicitud.getId());
 
             return ResponseEntity.ok(solicitud);
         }

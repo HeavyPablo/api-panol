@@ -1,6 +1,7 @@
 package com.stim.panol.service;
 import com.stim.panol.model.RegActivo;
 import com.stim.panol.repository.RegActivoRepository;
+import com.stim.panol.service.iservice.RegActivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.Escuela;
 import com.stim.panol.repository.EscuelaRepository;
-import lombok.RequiredArgsConstructor;
+import com.stim.panol.service.iservice.EscuelaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

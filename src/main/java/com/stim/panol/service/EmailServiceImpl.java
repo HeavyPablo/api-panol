@@ -1,6 +1,7 @@
 package com.stim.panol.service;
 
 import com.stim.panol.component.EmailSender;
+import com.stim.panol.service.iservice.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.concurrent.Future;
 
 @Service
 public class EmailServiceImpl implements EmailService {

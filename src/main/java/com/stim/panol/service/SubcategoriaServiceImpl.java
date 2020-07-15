@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.Subcategoria;
 import com.stim.panol.repository.SubcategoriaRepository;
+import com.stim.panol.service.iservice.SubcategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SubcategoriaServiceImpl implements SubcategoriaService{
+public class SubcategoriaServiceImpl implements SubcategoriaService {
 
     @Autowired
     private SubcategoriaRepository subcategoriaRepository;

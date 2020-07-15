@@ -3,6 +3,7 @@ package com.stim.panol.controller;
 import com.stim.panol.model.*;
 import com.stim.panol.repository.AlarmaStockRepository;
 import com.stim.panol.service.*;
+import com.stim.panol.service.iservice.AlarmaStockService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -60,7 +61,6 @@ public class ProductoController {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         ObjectMapper mapper = new ObjectMapper();
-
         Map<String, String> body = mapper.readValue(json, Map.class);
 
         System.out.println(body.get("nombre"));
@@ -93,18 +93,37 @@ public class ProductoController {
 
             logProductoService.save(logProducto);
 
-            //agrega el stock, inicial
-            AlarmaStock actualizarStock = alarmaStockService.findByIdEscuelaSAAndIdProductoSA(producto.getEscuela().getId(),producto.getSubcategoria().getId()).get();
+            //agrega el stock (actualizar o crear)
+            Optional<AlarmaStock> alarmaStock = alarmaStockService.findByIdEscuelaSAAndIdProductoSA(producto.getEscuela().getId(),producto.getSubcategoria().getId());
 
-            actualizarStock.setActualizacionSA(dateFormat.format(date));
-            int stockAnterior = actualizarStock.getStock();
-            int StockActual = stockAnterior + 1;
+            if (alarmaStock.isPresent()) {
+                AlarmaStock actualizarStock = alarmaStock.get();
 
-            int stockAnteriorTotal = actualizarStock.getStockTotal();
-            int StockActualTotal = stockAnteriorTotal + 1;
-            actualizarStock.setStock(StockActual);
-            actualizarStock.setStockTotal(StockActualTotal);
-            alarmaStockService.save(actualizarStock);
+                actualizarStock.setActualizacionSA(dateFormat.format(date));
+                int stockAnterior = actualizarStock.getStock();
+                int StockActual = stockAnterior + 1;
+
+                int stockAnteriorTotal = actualizarStock.getStockTotal();
+                int StockActualTotal = stockAnteriorTotal + 1;
+                actualizarStock.setStock(StockActual);
+                actualizarStock.setStockTotal(StockActualTotal);
+
+                alarmaStockService.save(actualizarStock);
+
+            } else {
+                AlarmaStock actualizarStock = new AlarmaStock(
+                        producto.getSubcategoria().getNombre(),
+                        producto.getEscuela().getNombre(),
+                        dateFormat.format(date),
+                        1,
+                        producto.getEscuela().getId(),
+                        producto.getSubcategoria().getId(),
+                        1
+                );
+
+                alarmaStockService.save(actualizarStock);
+            }
+
             return ResponseEntity.ok(producto);
         }
 

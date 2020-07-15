@@ -1,7 +1,6 @@
 package com.stim.panol.controller;
 
 import com.stim.panol.model.Director;
-import com.stim.panol.service.DirectorService;
 import com.stim.panol.service.DirectorServiceImpl;
 import com.stim.panol.service.EscuelaServiceImpl;
 import lombok.extern.slf4j.Slf4j;

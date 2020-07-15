@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.Director;
 import com.stim.panol.repository.DirectorRepository;
+import com.stim.panol.service.iservice.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DirectorServiceImpl implements DirectorService{
+public class DirectorServiceImpl implements DirectorService {
 
     @Autowired
     private DirectorRepository directorRepository;

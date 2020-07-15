@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.Docente;
 import com.stim.panol.repository.DocenteRepository;
+import com.stim.panol.service.iservice.DocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

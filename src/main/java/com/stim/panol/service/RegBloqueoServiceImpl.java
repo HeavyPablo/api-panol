@@ -2,6 +2,7 @@ package com.stim.panol.service;
 
 import com.stim.panol.model.RegBloqueo;
 import com.stim.panol.repository.RegBloqueoRepository;
+import com.stim.panol.service.iservice.RegBloqueoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 
 @Service
-public class RegBloqueoServiceImpl implements RegBloqueoService{
+public class RegBloqueoServiceImpl implements RegBloqueoService {
 
     @Autowired
     private RegBloqueoRepository regBloqueoRepository;
