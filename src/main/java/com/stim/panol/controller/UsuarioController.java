@@ -448,11 +448,11 @@ public class UsuarioController {
                 //Integer id = (int) row.getCell(0).getNumericCellValue();
 
                 // cuidado al usar el rut en el excel, hay que establecer la forma de ingresarlo al sistema
-                //recordar implementar una contraseña dinamica para el usuario.
+
 
                 Usuario newUsuario = new Usuario();
 
-                newUsuario.setPassword(bCryptPasswordEncoder.encode("1234"));
+                //newUsuario.setPassword(bCryptPasswordEncoder.encode("1234"));
                 newUsuario.setPerfil("ALUMNO");
                 newUsuario.setEstado("activo");
                 newUsuario.setFechaCreacion(dateFormat.format(date));
@@ -461,8 +461,13 @@ public class UsuarioController {
                 // Crear datos de perfil
                 Alumno newAlumno = new Alumno();
                 newAlumno.setRut(row.getCell(0).getStringCellValue());
+
                 newAlumno.setApellidoPaterno(row.getCell(1).getStringCellValue());
+                String apelidoPaternoPass = row.getCell(1).getStringCellValue();
+
                 newAlumno.setApellidoMaterno(row.getCell(2).getStringCellValue());
+                String apelidoMaternoPass = row.getCell(2).getStringCellValue();
+
                 newAlumno.setNombre(row.getCell(3).getStringCellValue());
                 newAlumno.setTelefono(row.getCell(5).getStringCellValue());
                 newAlumno.setCorreoAlumno(row.getCell(6).getStringCellValue());
@@ -472,6 +477,11 @@ public class UsuarioController {
                 newAlumno.setCarrera(carreraService.findById(id).get());
                 //carreraService.findById(Integer.parseInt(body.get("carrera"))).get()
                 newAlumno = alumnoService.save(newAlumno);
+
+                //forma de contraseña: los 3 primero caracteres del apellido paterno + 3 del apellido materno
+                String Pass = ((apelidoPaternoPass.replace(" ","")).substring(0, 3) +
+                        (apelidoMaternoPass.replace(" ","")).substring(0, 3) ).toLowerCase() ;
+                newUsuario.setPassword(bCryptPasswordEncoder.encode(Pass));
 
                 newUsuario.setUsername(newAlumno.getRut());
                 newUsuario.setAlumno(newAlumno);
