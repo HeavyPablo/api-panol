@@ -219,6 +219,12 @@ public class ProductoController {
         return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping("/escuela/{idEscuela}")
+    public ResponseEntity<List<Producto>> findByEscuela(@PathVariable String idEscuela) {
+        Optional<Escuela> escuela = escuelaService.findById(Integer.parseInt(idEscuela));
+        return escuela.map(value -> ResponseEntity.ok(productoService.findByEscuelaAndEstado(value, "disponible").get())).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
     @GetMapping("/filtro/{filtro}")
     public ResponseEntity<List<Producto>> findByEstado(@PathVariable String filtro) {
         if (filtro.equals("todos")) {

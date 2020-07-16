@@ -30,8 +30,8 @@ public class NotificacionUsuarioServiceImpl implements NotificacionUsuarioServic
     }
 
     @Override
-    public Optional<NotificacionUsuario> findByUsuario(Usuario usuario) {
-        return notificacionUsuarioRepository.findByUsuario(usuario);
+    public Optional<List<NotificacionUsuario>> findByUsuario(Usuario usuario) {
+        return notificacionUsuarioRepository.findByUsuarioOrderByFechaDesc(usuario);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class NotificacionUsuarioServiceImpl implements NotificacionUsuarioServic
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         NotificacionUsuario notificacionUsuario = new NotificacionUsuario();
 
-        notificacionUsuario.setNotificacion("Solicitud " + idSolicitud + " enviada");
+        notificacionUsuario.setNotificacion("Solicitud " + idSolicitud + " enviada, vaya a pañol para recibir sus materiales");
         notificacionUsuario.setOperacion("crear");
         notificacionUsuario.setEstado("solicitud");
         notificacionUsuario.setFecha(dateFormat.format(date));

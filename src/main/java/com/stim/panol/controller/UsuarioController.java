@@ -72,7 +72,7 @@ public class UsuarioController {
 
         boolean valid = false;
 
-        String escuelaAfectado = "";
+        String escuelaAfectado = "sin escuela";
 
         Usuario newUsuario = new Usuario(
                 body.get("username"),

@@ -1,5 +1,6 @@
 package com.stim.panol.service.iservice;
 
+import com.stim.panol.model.Escuela;
 import com.stim.panol.model.Producto;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface ProductoService {
     Producto save(Producto producto);
     void deleteById(Integer id);
     List<Producto> findByEstado(String estado);
+    Optional<List<Producto>> findByEscuelaAndEstado(Escuela escuela, String estado);
 }

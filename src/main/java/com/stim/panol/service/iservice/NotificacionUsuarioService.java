@@ -10,6 +10,6 @@ public interface NotificacionUsuarioService {
 
     List<NotificacionUsuario> findAll();
     Optional<NotificacionUsuario> findById(int id);
-    Optional<NotificacionUsuario> findByUsuario(Usuario usuario);
+    Optional<List<NotificacionUsuario>> findByUsuario(Usuario usuario);
     NotificacionUsuario save(NotificacionUsuario notificacionUsuario);
 }

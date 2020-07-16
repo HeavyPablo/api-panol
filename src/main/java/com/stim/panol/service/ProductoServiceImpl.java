@@ -1,5 +1,6 @@
 package com.stim.panol.service;
 
+import com.stim.panol.model.Escuela;
 import com.stim.panol.model.Producto;
 import com.stim.panol.repository.ProductoRepository;
 import com.stim.panol.service.iservice.ProductoService;
@@ -44,5 +45,10 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public List<Producto> findByEstado(String estado) {
         return productoRepository.findByEstado(estado);
+    }
+
+    @Override
+    public Optional<List<Producto>> findByEscuelaAndEstado(Escuela escuela, String estado) {
+        return productoRepository.findByEscuelaAndEstado(escuela, estado);
     }
 }
